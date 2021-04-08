@@ -67,6 +67,17 @@ class CatagorizedStyle(SimpleStyle, VectorColorPalette):
 
         VectorColorPalette.__init__(self, color_palette, number_of_class)
 
+    def get_number_of_class(self):
+        if self.values is None:
+            raise ValueError('The values should be list of catagory')
+
+        elif self.number_of_class != len(self.values):
+            self.number_of_class = len(self.values)
+
+        else:
+            raise ValueError(
+                'There is a problem during get_number_of_class method.')
+
     def point_symbolizer_generator(self, fill_color):
         symbolizer = '''
             <PointSymbolizer>
@@ -160,6 +171,9 @@ class CatagorizedStyle(SimpleStyle, VectorColorPalette):
         return rule
 
     def catagorized_style(self):
+
+        self.get_number_of_class()
+        self.color_palette_selector()
 
         rule = ''
         for val, color in zip(self.values, self.color_palette):

@@ -52,9 +52,6 @@ class SimpleStyle(FeatureLabel):
         self.stroke_dasharray = stroke_dasharray
         self.perpendicular_offset = perpendicular_offset
 
-        # Auto generated properties
-        self.rule = ''
-
     # This function is only for the support
     def style_generator(self, rule):
 

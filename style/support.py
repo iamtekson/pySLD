@@ -36,3 +36,12 @@ class RasterColorPalette:
     def __init__(self, color_palette="Spectral_r", number_of_class=5):
         self.color_palette = color_palette
         self.number_of_class = number_of_class
+
+
+def str_to_num(input_str):
+    if '.' in input_str:
+        val = float(input_str)
+    else:
+        val = int(input_str)
+
+    return val

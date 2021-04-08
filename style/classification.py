@@ -1,5 +1,6 @@
 import jenkspy
 import numpy as np
+from .support import str_to_num
 
 
 class Classification:
@@ -31,10 +32,15 @@ class Classification:
         self.classification_method = classification_method
 
         # The following values will be generated based on values
-        self.max_value = max(self.values)
-        self.min_value = min(self.values)
-        self.classes = None
-        self.choose_classification_method()
+        if self.values:
+            self.max_value = max(self.values)
+            self.min_value = min(self.values)
+            self.choose_classification_method()
+
+        else:
+            self.max_value = None
+            self.min_value = None
+            self.classes = None
 
     def jenks_breaks(self):
         return jenkspy.jenks_breaks(self.values, self.number_of_class)
@@ -87,6 +93,17 @@ class Classification:
         return np.geomspace(self.min_value, self.max_value, num=self.number_of_class+1)
 
     def choose_classification_method(self):
+
+        for i, v in enumerate(self.values):
+            if type(v) is str:
+                val = str_to_num(v)
+                self.values[i] = val
+
+        self.max_value = max(self.values)
+        self.min_value = min(self.values)
+
+        print(type(self.max_value), self.min_value, self.values)
+
         if self.classification_method == 'equal_interval':
             self.classes = self.equal_interval()
 

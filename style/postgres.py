@@ -9,7 +9,9 @@ class Pg:
         self.host = host
         self.port = port
         self.schema = None
+        self.conn = None
 
+    def connect(self):
         try:
             self.conn = connect(
                 dbname=self.dbname,
