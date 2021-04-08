@@ -7,6 +7,120 @@ from .support import str_to_num
 
 
 class Style (ClassifiedStyle, RasterStyle,  Pg):
+    """
+    This is the main style class for generating the SLD files.
+
+    There are mainly 4 types of styles based on the data
+        1. SIMPLE : Valid for point, line, polygon features
+        2. CATEGORIZED : Valid for point, line, polygon features
+        3. CLASSIFIED : Valid for point, line, polygon features
+        4. RASTER : Valid for raster dataset
+
+    Simple Style:
+    =============
+    The simple style 
+
+
+    Parameters:
+    -----------
+    attribute_name : str
+        Required: For CLASSIFIED and CATEGORIZED style / Not required for SIMPLE and RASTER style
+        Default Value: None
+        Description: 
+
+    values: array 
+        Required: For CLASSIFIED and CATEGORIZED style / Not required for SIMPLE and RASTER style
+        Default Value: None
+        Description: 
+
+    number_of_class : int 
+        Required: For CLASSIFIED style / Not required for SIMPLE, CATEGORIZED and RASTER style
+        Default Value: 5
+        Description: The number of classes for the CATEGORIZED style is equal to length of `values`
+
+    color_palette : str, list, dict 
+        Required: For CATEGORIZED, CLASSIFIED AND RASTER style / Not required for SIMPLE style
+        Default Value: 'Spectral_r'
+        Description: 
+
+    style_name : str 
+        Required: Required
+        Default Value: 'style'
+        Description: 
+
+    geom_type : str 
+        Required: For CATEGORIZED, CLASSIFIED AND SIMPLE style / Not required for RASTER style
+        Default Value: 'polygon'
+        Available Values: 'point', 'line', 'polygon' 
+        Description: 
+
+    classification_method: str
+        Required: For CLASSIFIED style / Not required for CATEGORIZED, RASTER AND SIMPLE style
+        Default Value: 'natural_break'
+        Available Values: 'natural_break', 'equal_interval', 'quantile', 'standard_deviation', 'geometrical_interval'
+
+    fill_color: str, color_code
+        Required: For SIMPLE style
+        Default Value: '#ffffff'
+
+    stroke_color: str, color_code
+        Required: For SIMPLE, CATEGORIZED, AND CLASSIFIED style
+        Default Value: '#333333'
+
+    stroke_width: numeric
+        Required: For SIMPLE, CATEGORIZED, AND CLASSIFIED style
+        Default Value: 1
+
+
+    opacity: numeric, value between 0 and 1
+        Required: Required
+        Default Value: 1
+
+    dbname: str
+        Required: Optional
+        Default Value: None
+
+    user: str
+
+    password: str
+
+    host: str
+
+    schema: str
+
+    pg_table_name: str
+
+    point_size: int
+
+    well_known_name: str
+
+    point_roration: int
+
+    stroke_linecap: str
+
+    stroke_dasharray: str
+
+    perpendicular_offset: str
+
+    feature_label: bool
+
+    font_family: str
+
+    font_color: str, color_code
+
+    font_size: int
+
+    font_weight: str
+
+    font_style: str
+
+    halo_color: str, color_code
+
+    halo_radius: numeric
+
+    continuous_legend: bool
+    """
+
     def __init__(
             self,
             attribute_name=None,
@@ -129,15 +243,20 @@ class Style (ClassifiedStyle, RasterStyle,  Pg):
         """
         Get the values from postgresql and set it to self.values
 
+
         Parameters used:
         ----------------
         self.conn : connection class
             It will be automatically connected if user provides the connection parameters
+
         self.values : array
             The values from specific column of postgres
+
         self.attribute_name: str
             The column name of the table
+
         self.pg_table_name: str
+
         self.schema: str
         """
         if self.conn is None:
@@ -154,11 +273,11 @@ class Style (ClassifiedStyle, RasterStyle,  Pg):
     def generate_simple_style(self):
         return self.simple_style()
 
-    def generate_catagorized_style(self):
+    def generate_categorized_style(self):
         if self.values is None:
             self.get_values_from_pg()
 
-        return self.catagorized_style()
+        return self.categorized_style()
 
     def generate_classified_style(self):
         if self.values is None:

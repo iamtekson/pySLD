@@ -1,4 +1,4 @@
-from .catagorizedStyle import CatagorizedStyle
+from .categorizedStyle import categorizedStyle
 from .classification import Classification
 from .classifiedStyle import ClassifiedStyle
 from .featureLabel import FeatureLabel

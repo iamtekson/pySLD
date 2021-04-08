@@ -4,7 +4,7 @@ from .simpleStyle import SimpleStyle
 from .support import VectorColorPalette
 
 
-class CatagorizedStyle(SimpleStyle, VectorColorPalette):
+class categorizedStyle(SimpleStyle, VectorColorPalette):
     def __init__(self,
                  attribute_name,
                  values,
@@ -142,7 +142,7 @@ class CatagorizedStyle(SimpleStyle, VectorColorPalette):
 
         return symbolizer
 
-    def catagorized_rule_generator(self, attribute_value, fill_color):
+    def categorized_rule_generator(self, attribute_value, fill_color):
 
         if self.geom_type == 'point':
             symbolizer = self.point_symbolizer_generator(fill_color)
@@ -170,13 +170,13 @@ class CatagorizedStyle(SimpleStyle, VectorColorPalette):
 
         return rule
 
-    def catagorized_style(self):
+    def categorized_style(self):
 
         self.get_number_of_class()
         self.color_palette_selector()
 
         rule = ''
         for val, color in zip(self.values, self.color_palette):
-            rule += self.catagorized_rule_generator(val, fill_color=color)
+            rule += self.categorized_rule_generator(val, fill_color=color)
 
         return self.style_generator(rule)

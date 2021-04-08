@@ -2,12 +2,12 @@ import seaborn as sns
 from matplotlib.colors import rgb2hex
 from .simpleStyle import SimpleStyle
 from .support import VectorColorPalette
-from .catagorizedStyle import CatagorizedStyle
+from .categorizedStyle import categorizedStyle
 from .classification import Classification
 from .featureLabel import FeatureLabel
 
 
-class ClassifiedStyle(Classification, CatagorizedStyle, FeatureLabel):
+class ClassifiedStyle(Classification, categorizedStyle, FeatureLabel):
     def __init__(self,
                  attribute_name,
                  values,
@@ -38,7 +38,7 @@ class ClassifiedStyle(Classification, CatagorizedStyle, FeatureLabel):
                  halo_radius=1
                  ):
 
-        CatagorizedStyle.__init__(
+        categorizedStyle.__init__(
             self,
             attribute_name=attribute_name,
             values=values,

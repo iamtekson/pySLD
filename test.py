@@ -69,7 +69,7 @@ style = Style(dbname='sdssv2', user='postgres',
 # style.get_attribute_name()
 # style.get_values_from_pg()
 
-a = style.generate_classified_style()
+a = style.generate_categorized_style()
 print(a)
 # print(po_s, li_s, polygon_s, style.__dict__)
 
