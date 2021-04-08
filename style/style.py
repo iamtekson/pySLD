@@ -44,9 +44,6 @@ class Style (ClassifiedStyle, RasterStyle,  Pg):
             font_style="normal",
             halo_color="#ffffff",
             halo_radius=1,
-
-            raster_min_value=0,
-            raster_max_value=100,
             continuous_legend=True,
     ):
 
@@ -88,8 +85,6 @@ class Style (ClassifiedStyle, RasterStyle,  Pg):
             style_name=style_name,
             color_palette=color_palette,
             number_of_class=number_of_class,
-            min_value=raster_min_value,
-            max_value=raster_max_value,
             opacity=opacity,
             continuous_legend=continuous_legend
         )
@@ -98,42 +93,80 @@ class Style (ClassifiedStyle, RasterStyle,  Pg):
         self.schema = schema
         self.pg_table_name = pg_table_name
 
-    def get_attribute_name(self):
+    def connect_pg(self, dbname, user, password, host, port):
+        self.dbname = dbname
+        self.user = user
+        self.password = password
+        self.host = host
+        self.port = port
+
+        self.connect()
+
+    def get_attribute_name(self, pg_table_name=None):
+        '''
+        Help to connect with postgresql and set the attribute_name.
+        The attribute name will be the column_name of the shapefile attribute table.
+        '''
+
+        if self.conn is None:
+            self.connect()
+
+        if pg_table_name is not None:
+            self.pg_table_name = pg_table_name
 
         if self.attribute_name is None:
-            if self.conn is None:
-                self.connect()
-
+            # Function to get the column_names from postgres
             columns = self.get_column_names(self.pg_table_name)
 
-            return random.choice(columns)
+            self.attribute_name = random.choice(columns)
+
+            return self.attribute_name
 
         else:
             return self.attribute_name
 
-    def get_attribute_values(self):
+    def get_values_from_pg(self):
+        """
+        Get the values from postgresql and set it to self.values
+
+        Parameters used:
+        ----------------
+        self.conn : connection class
+            It will be automatically connected if user provides the connection parameters
+        self.values : array
+            The values from specific column of postgres
+        self.attribute_name: str
+            The column name of the table
+        self.pg_table_name: str
+        self.schema: str
+        """
         if self.conn is None:
             self.connect()
+
+        if self.attribute_name is None:
+            self.attribute_name = self.get_attribute_name()
 
         self.values = self.get_values_from_column(
             column=self.attribute_name, table=self.pg_table_name, schema=self.schema)
 
-        for i, v in enumerate(self.values):
-            if type(v) is str:
-                val = str_to_num(v)
-                self.values[i] = val
-
-        self.max_value = max(self.values)
-        self.min_value = min(self.values)
+        return self.values
 
     def generate_simple_style(self):
         return self.simple_style()
 
     def generate_catagorized_style(self):
+        if self.values is None:
+            self.get_values_from_pg()
+
         return self.catagorized_style()
 
     def generate_classified_style(self):
+        if self.values is None:
+            self.get_values_from_pg()
+
+        print(self.values)
+
         return self.classified_style()
 
-    def generate_raster_style(self):
-        return self.coverage_style()
+    def generate_raster_style(self, max_value, min_value):
+        return self.coverage_style(max_value, min_value)

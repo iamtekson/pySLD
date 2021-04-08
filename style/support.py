@@ -39,9 +39,13 @@ class RasterColorPalette:
 
 
 def str_to_num(input_str):
-    if '.' in input_str:
-        val = float(input_str)
-    else:
-        val = int(input_str)
 
-    return val
+    try:
+        if '.' in input_str:
+            val = float(input_str)
+        else:
+            val = int(input_str)
+        return val
+
+    except ValueError:
+        pass

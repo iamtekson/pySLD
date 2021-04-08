@@ -99,8 +99,12 @@ class Classification:
                 val = str_to_num(v)
                 self.values[i] = val
 
-        self.max_value = max(self.values)
-        self.min_value = min(self.values)
+        try:
+            self.max_value = max(self.values)
+            self.min_value = min(self.values)
+
+        except TypeError as te:
+            return ('The values column must be a list of numeric values. ', te)
 
         print(type(self.max_value), self.min_value, self.values)
 

@@ -109,15 +109,20 @@ class ClassifiedStyle(Classification, CatagorizedStyle, FeatureLabel):
 
         self.choose_classification_method()
 
-        for value, color, i in zip(self.classes, self.color_palette, range(self.number_of_class)):
+        if self.classes:
+            for value, color, i in zip(self.classes, self.color_palette, range(self.number_of_class)):
 
-            try:
-                lower_limit = self.classes[i]
-                heigher_limit = self.classes[i + 1]
-                rule += self.classified_rule_generator(
-                    lower_limit, heigher_limit, color)
+                try:
+                    lower_limit = self.classes[i]
+                    heigher_limit = self.classes[i + 1]
+                    rule += self.classified_rule_generator(
+                        lower_limit, heigher_limit, color)
 
-            except IndexError:
-                pass
+                except IndexError:
+                    pass
 
-        return self.style_generator(rule)
+            return self.style_generator(rule)
+
+        else:
+            raise ValueError(
+                'The values column must be a list of numeric values.')

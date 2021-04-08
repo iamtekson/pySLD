@@ -58,18 +58,18 @@ attribute_values = [5, 3, 43, 50, 234, 543, 821, 1114, 4542]
 # po_s = style.simple_point_style()
 # li_s = style.simple_line_style()
 # polygon_s = style.polygon_simple_style()
-cs = ClassifiedStyle(attribute_name, attribute_values,
-                     feature_label=True, classification_method='equal_interval')
+# cs = ClassifiedStyle(attribute_name, attribute_values,
+#                      feature_label=True, classification_method='equal_interval')
 
 # print(cs.classified_style())
 
 style = Style(dbname='sdssv2', user='postgres',
               password='gicait123', host='203.159.29.45', pg_table_name='ear_test1', attribute_name='BU', schema='geoinformatics_center', classification_method='equal_interval', feature_label=True, color_palette=['#232321', '#ffff00', '#ff00ff', '#f0f0f0', '#cc0000'])
 
-style.get_attribute_name()
-style.get_attribute_values()
+# style.get_attribute_name()
+# style.get_values_from_pg()
 
-a = style.generate_raster_style()
+a = style.generate_classified_style()
 print(a)
 # print(po_s, li_s, polygon_s, style.__dict__)
 

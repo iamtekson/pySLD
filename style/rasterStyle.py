@@ -4,20 +4,16 @@ from .support import RasterColorPalette
 
 
 class RasterStyle(RasterColorPalette):
-    def __init__(self, style_name='coverageStyle', color_palette='Spectral_r', number_of_class=5, min_value=0, max_value=100, opacity=1, continuous_legend=True):
+    def __init__(self, style_name='coverageStyle', color_palette='Spectral_r', number_of_class=5, opacity=1, continuous_legend=True):
         super().__init__(color_palette, number_of_class)
         self.style_name = style_name
         self.opacity = opacity
-        self.min_value = min_value
-        self.max_value = max_value
         self.continuous_legend = continuous_legend
 
         # These fields are auto generated during style creation
         self.cmap_type = ''
         self.interval = None
         self.legend_label = []
-        self.legend_generator()
-        self.color_palette_selector()
 
     def legend_generator(self):
         self.interval = (self.max_value - self.min_value) / \
@@ -51,7 +47,14 @@ class RasterStyle(RasterColorPalette):
 
         return cmap_entry
 
-    def coverage_style(self):
+    def coverage_style(self, max_value, min_value):
+
+        self.max_value = max_value
+        self.min_value = min_value
+
+        self.legend_generator()
+        self.color_palette_selector()
+
         if self.continuous_legend:
             self.cmap_type = 'range'
 
