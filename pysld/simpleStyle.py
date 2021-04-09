@@ -166,6 +166,9 @@ class SimpleStyle(FeatureLabel):
         elif self.geom_type == 'polygon':
             return self.simple_polygon_style()
 
+        elif self.geom_type == 'raster':
+            pass
+
         else:
             raise FeatureError('geom_type did not matched. Available geom_types are {}'.format(
                 ', '.join(geom_types)))

@@ -26,7 +26,7 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/iamtekson/pysld",
-    packages=["style"],
+    packages=["pysld"],
     keywords=[
         "pysld",
         'sld',
