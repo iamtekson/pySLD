@@ -5,7 +5,7 @@ from setuptools import setup
 here = os.path.abspath(os.path.dirname(__file__))
 
 about = dict()
-with open(os.path.join(here, "style", "__version__.py"), "r") as f:
+with open(os.path.join(here, "pysld", "__version__.py"), "r") as f:
     exec(f.read(), about)
 
 with open("README.md", "r") as fh:

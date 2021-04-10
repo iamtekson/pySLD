@@ -6,7 +6,7 @@ from matplotlib.colors import rgb2hex
 from .support import str_to_num
 
 
-class Style (ClassifiedStyle, RasterStyle,  Pg):
+class StyleSld (ClassifiedStyle, RasterStyle,  Pg):
     """
     This is the main style class for generating the SLD files.
 

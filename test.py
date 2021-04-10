@@ -1,14 +1,14 @@
-from style.style import Style
-from style.classification import Classification
+from pysld.style import Style
+from pysld.classification import Classification
 import random
 import numpy as np
-from style.featureLabel import FeatureLabel
+from pysld.featureLabel import FeatureLabel
 # from style.pointStyle import PointStyle
 # from style.lineStyle import LineStyle
 # from style.style import RasterStyle
 # from style.polygonStyle import PolygonStyle
-from style.simpleStyle import SimpleStyle
-from style.classifiedStyle import ClassifiedStyle
+from pysld.simpleStyle import SimpleStyle
+from pysld.classifiedStyle import ClassifiedStyle
 
 f = FeatureLabel('jkama')
 
@@ -66,11 +66,14 @@ attribute_values = [5, 3, 43, 50, 234, 543, 821, 1114, 4542]
 style = Style(dbname='sdssv2', user='postgres',
               password='gicait123', host='203.159.29.45', pg_table_name='ear_test1', attribute_name='BU', schema='geoinformatics_center', classification_method='equal_interval', feature_label=True, color_palette=['#232321', '#ffff00', '#ff00ff', '#f0f0f0', '#cc0000'])
 
+style2 = Style()
+
+b = style2.generate_simple_style()
 # style.get_attribute_name()
 # style.get_values_from_pg()
 
 a = style.generate_categorized_style()
-print(a)
+print(b)
 # print(po_s, li_s, polygon_s, style.__dict__)
 
 # rs.color_palette_selector()
