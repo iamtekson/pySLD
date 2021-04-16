@@ -29,6 +29,7 @@ class ClassifiedStyle(Classification, categorizedStyle, FeatureLabel):
                  perpendicular_offset=None,
 
                  feature_label=False,
+                 attribute_name_label=None,
                  font_family='Aerial',
                  font_color="#333333",
                  font_size=14,
@@ -59,6 +60,7 @@ class ClassifiedStyle(Classification, categorizedStyle, FeatureLabel):
             perpendicular_offset=perpendicular_offset,
 
             feature_label=feature_label,
+            attribute_name_label=attribute_name_label,
             font_family=font_family,
             font_color=font_color,
             font_size=font_size,

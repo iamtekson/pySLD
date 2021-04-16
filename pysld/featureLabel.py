@@ -2,8 +2,8 @@ from .support import FeatureError
 
 
 class FeatureLabel:
-    def __init__(self, attribute_name, geom_type='polygon', font_family='Aerial', font_color="#333333", font_size=14, font_weight='normal', font_style="normal", halo_color="#ffffff", halo_radius=1):
-        self.attribute_name = attribute_name
+    def __init__(self, attribute_name_label=None, geom_type='polygon', font_family='Aerial', font_color="#333333", font_size=14, font_weight='normal', font_style="normal", halo_color="#ffffff", halo_radius=1):
+        self.attribute_name_label = attribute_name_label
         self.geom_type = geom_type
         self.font_family = font_family
         self.font_color = font_color
@@ -28,11 +28,15 @@ class FeatureLabel:
         All the values are in pixel
         '''
 
+        if self.attribute_name_label is None:
+            _label = '<Label>Label</Label>'
+
+        else:
+            _label = '<Label><ogc:PropertyName>{0}</ogc:PropertyName></Label>'
+
         label = '''
             <TextSymbolizer>
-                <Label>
-                    <ogc:PropertyName>{0}</ogc:PropertyName>
-                </Label>
+                {0}
                 <Font>
                     <CssParameter name="font-family">{1}</CssParameter>
                     <CssParameter name="font-color">{2}</CssParameter>
@@ -60,7 +64,7 @@ class FeatureLabel:
                     </Fill>
                 </Halo>
             </TextSymbolizer>
-            '''.format(self.attribute_name, self.font_family, self.font_color,
+            '''.format(_label, self.font_family, self.font_color,
                        self.font_size, self.font_style, self.font_weight,
                        self.offset_x, self.offset_y, self.displacement_x, self.displacement_y,
                        self.rotation, self.halo_radius, self.halo_color)
@@ -68,12 +72,15 @@ class FeatureLabel:
         return label
 
     def generate_line_label(self):
+        if self.attribute_name_label is None:
+            _label = '<Label>Label</Label>'
+
+        else:
+            _label = '<Label><ogc:PropertyName>{0}</ogc:PropertyName></Label>'
 
         label = '''
             <TextSymbolizer>
-                <Label>
-                    <ogc:PropertyName>{0}</ogc:PropertyName>
-                </Label>
+                {0}
                 <Font>
                     <CssParameter name="font-family">{1}</CssParameter>
                     <CssParameter name="font-color">{2}</CssParameter>
@@ -93,7 +100,7 @@ class FeatureLabel:
                     </Fill>
                 </Halo>
             </TextSymbolizer>
-            '''.format(self.attribute_name, self.font_family, self.font_color,
+            '''.format(_label, self.font_family, self.font_color,
                        self.font_size, self.font_style, self.font_weight,
                        self.perpendicular_offset, self.halo_radius, self.halo_color)
 

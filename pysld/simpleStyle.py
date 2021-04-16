@@ -19,7 +19,7 @@ class SimpleStyle(FeatureLabel):
             stroke_dasharray=None,
             perpendicular_offset=None,
 
-            attribute_name=None,
+            attribute_name_label=None,
             feature_label=False,
             font_family='Aerial',
             font_color="#333333",
@@ -30,7 +30,7 @@ class SimpleStyle(FeatureLabel):
             halo_radius=1
     ):
 
-        FeatureLabel.__init__(self, attribute_name, geom_type, font_family, font_color,
+        FeatureLabel.__init__(self, attribute_name_label, geom_type, font_family, font_color,
                               font_size, font_weight, font_style, halo_color, halo_radius)
 
         # Common properties
