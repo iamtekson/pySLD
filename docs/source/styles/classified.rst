@@ -195,6 +195,12 @@ Since the ``classifed style`` is inherited from :ref:`categorized-style` and :re
       - integer
       - 5
       - The number of classes for classify the values.
+  
+    * - values
+      - list of numeric values
+      - 
+      - It should be list of numeric values. See :ref:`additional-functions` for more detail.
+
 
     * - classification_method 
       - string
