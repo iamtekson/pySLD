@@ -1,7 +1,7 @@
 [![Downloads](https://pepy.tech/badge/pysld)](https://pepy.tech/project/pysld) 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-# Documentation
+# Pysld
 
 The library is useful for generating the [SLD](https://www.ogc.org/standards/sld) file for raster as well as vector datasets. The package can generate the 4 types of styles,
 
@@ -10,7 +10,10 @@ The library is useful for generating the [SLD](https://www.ogc.org/standards/sld
 3. Classified style
 4. Raster style
 
-The library is the small version of [QGIS symbology](https://docs.qgis.org/2.8/en/docs/training_manual/basic_map/symbology.html). This library is very useful for the visual appearance on the map.
+The library is the small version of [QGIS symbology](https://docs.qgis.org/2.8/en/docs/training_manual/basic_map/symbology.html). This library is very useful for the visual appearance on the map. Below is the example of categorized style in qgis. 
+
+![categorized style qgis](https://github.com/iamtekson/pySLD/blob/main/docs/source/img/categorized_style_qgis.PNG?raw=true, "Categorized style in qgis")
+
 
 The package is available in official PyPI: https://pypi.org/project/pysld/
 
