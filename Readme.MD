@@ -1,3 +1,6 @@
+[![Downloads](https://pepy.tech/badge/pysld)](https://pepy.tech/project/pysld) 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 # Documentation
 
 The library is useful for generating the [SLD](https://www.ogc.org/standards/sld) file for raster as well as vector datasets. The package can generate the 4 types of styles,
