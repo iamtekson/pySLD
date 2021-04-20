@@ -14,7 +14,7 @@ The Classified style is available for all point, line and polygon datasets. This
     sld = StyleSld(
                 style_name='polygonStyle', 
                 geom_type='polygon', 
-                attribute_name='USE',
+                attribute_name='PEOPLE',
                 values=[1,2,3,34,23,122,12,2,3,21,23,32,1,23,42,1,23,1,1,23,4,3,54,6,768,8,554,3,43,543,6,657,7,75,4,4],
                 number_of_class=5,
                 classification_method='natural_break',
@@ -28,7 +28,13 @@ The Classified style is available for all point, line and polygon datasets. This
 
 **Note:** If you want to add the label feature, simple add two more parameters, ``feature_label=True`` and ``attribute_name_label`` to the ``StyleSld`` class. 
 
-The above code will return the following text,
+The above code will generate the following map with corresponding legend,
+
+.. image:: ../img/classified_map.PNG
+
+.. image:: ../img/classified_legend.PNG
+
+Which is simillar to following ``xml``,
 
 .. code:: xml
 

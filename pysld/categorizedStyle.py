@@ -62,6 +62,7 @@ class categorizedStyle(SimpleStyle, VectorColorPalette):
 
         self.attribute_name = attribute_name
         self.values = values
+
         self.number_of_class = number_of_class
 
         if self.number_of_class is None:

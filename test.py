@@ -111,10 +111,27 @@
 from pysld.style import StyleSld
 sld = StyleSld(
     style_name='polygonStyle',
+    geom_type='polygon',
+    attribute_name='USE',
+    values=['Agriculture', 'Residential', 'Restaurant', 'Storehouse'],
     color_palette='Spectral_r',
-    continuous_legend=True,
 )
 
 # Generate the Raster style
-style = sld.generate_raster_style(max_value=100, min_value=0)
+style = sld.generate_categorized_style()
 print(style)
+
+# sld = StyleSld(
+#     style_name='polygonStyle',
+#     geom_type='polygon',
+#     attribute_name='USE',
+#     values=[1, 2, 3, 34, 23, 122, 12, 2, 3, 21, 23, 32, 1, 23, 42, 1, 23,
+#             1, 1, 23, 4, 3, 54, 6, 768, 8, 554, 3, 43, 543, 6, 657, 7, 75, 4, 4],
+#     number_of_class=5,
+#     classification_method='natural_break',
+#     color_palette='Spectral_r',
+# )
+
+# # Generate the Classified style
+# style = sld.generate_classified_style()
+# print(style)

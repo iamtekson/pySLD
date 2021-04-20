@@ -28,100 +28,106 @@ The categorized style is available for all point, line and polygon datasets. Thi
 
 **Note:** If you want to add the label feature, simple add two more parameters, ``feature_label=True`` and ``attribute_name_label`` to the ``StyleSld`` class. 
 
-The above code will return the following text,
+The above code will generate the following map with corresponding legend,
+
+.. image:: ../img/categorized_map.PNG
+
+.. image:: ../img/categorized_legend.PNG
+
+Which is simillar to following ``xml``,
 
 .. code:: xml
 
     <StyledLayerDescriptor version="1.0.0" xsi:schemaLocation="http://www.opengis.net/sld StyledLayerDescriptor.xsd" xmlns="http://www.opengis.net/sld" xmlns:ogc="http://www.opengis.net/ogc" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <NamedLayer>
-                <Name>polygonStyle</Name>
-                <UserStyle>
-                <Title>polygonStyle</Title>
-                <FeatureTypeStyle>
-                    <Rule>
-                        <Name>None</Name>
-                        <Title>None</Title>
-                        <ogc:Filter>
-                            <ogc:PropertyIsEqualTo>
-                                <ogc:PropertyName>USE</ogc:PropertyName>
-                                <ogc:Literal>None</ogc:Literal>
-                            </ogc:PropertyIsEqualTo>
-                        </ogc:Filter>
-                        <PolygonSymbolizer>
-                            <Fill>
-                                <CssParameter name="fill">#66c2a5</CssParameter>
-                                <CssParameter name="fill-opacity">1</CssParameter>
-                            </Fill>
-                            <Stroke>
-                                <CssParameter name="stroke">#333333</CssParameter>
-                                <CssParameter name="stroke-width">1</CssParameter>
-                            </Stroke>
-                        </PolygonSymbolizer>
-                    </Rule>
-                    <Rule>
-                        <Name>None</Name>
-                        <Title>None</Title>
-                        <ogc:Filter>
-                            <ogc:PropertyIsEqualTo>
-                                <ogc:PropertyName>USE</ogc:PropertyName>
-                                <ogc:Literal>None</ogc:Literal>
-                            </ogc:PropertyIsEqualTo>
-                        </ogc:Filter>
-                        <PolygonSymbolizer>
-                            <Fill>
-                                <CssParameter name="fill">#e6f598</CssParameter>
-                                <CssParameter name="fill-opacity">1</CssParameter>
-                            </Fill>
-                            <Stroke>
-                                <CssParameter name="stroke">#333333</CssParameter>
-                                <CssParameter name="stroke-width">1</CssParameter>
-                            </Stroke>
-                        </PolygonSymbolizer>
-                    </Rule>
-                    <Rule>
-                        <Name>None</Name>
-                        <Title>None</Title>
-                        <ogc:Filter>
-                            <ogc:PropertyIsEqualTo>
-                                <ogc:PropertyName>USE</ogc:PropertyName>
-                                <ogc:Literal>None</ogc:Literal>
-                            </ogc:PropertyIsEqualTo>
-                        </ogc:Filter>
-                        <PolygonSymbolizer>
-                            <Fill>
-                                <CssParameter name="fill">#fee08b</CssParameter>
-                                <CssParameter name="fill-opacity">1</CssParameter>
-                            </Fill>
-                            <Stroke>
-                                <CssParameter name="stroke">#333333</CssParameter>
-                                <CssParameter name="stroke-width">1</CssParameter>
-                            </Stroke>
-                        </PolygonSymbolizer>
-                    </Rule>
-                    <Rule>
-                        <Name>None</Name>
-                        <Title>None</Title>
-                        <ogc:Filter>
-                            <ogc:PropertyIsEqualTo>
-                                <ogc:PropertyName>USE</ogc:PropertyName>
-                                <ogc:Literal>None</ogc:Literal>
-                            </ogc:PropertyIsEqualTo>
-                        </ogc:Filter>
-                        <PolygonSymbolizer>
-                            <Fill>
-                                <CssParameter name="fill">#f46d43</CssParameter>
-                                <CssParameter name="fill-opacity">1</CssParameter>
-                            </Fill>
-                            <Stroke>
-                                <CssParameter name="stroke">#333333</CssParameter>
-                                <CssParameter name="stroke-width">1</CssParameter>
-                            </Stroke>
-                        </PolygonSymbolizer>
-                    </Rule>
-                </FeatureTypeStyle>
-                </UserStyle>
-            </NamedLayer>
-        </StyledLayerDescriptor>
+    <NamedLayer>
+        <Name>polygonStyle</Name>
+        <UserStyle>
+        <Title>polygonStyle</Title>
+        <FeatureTypeStyle>
+            <Rule>
+                <Name>Agriculture</Name>
+                <Title>Agriculture</Title>
+                <ogc:Filter>
+                    <ogc:PropertyIsEqualTo>
+                        <ogc:PropertyName>USE</ogc:PropertyName>
+                        <ogc:Literal>Agriculture</ogc:Literal>
+                    </ogc:PropertyIsEqualTo>
+                </ogc:Filter>
+            <PolygonSymbolizer>
+                <Fill>
+                    <CssParameter name="fill">#66c2a5</CssParameter>
+                    <CssParameter name="fill-opacity">1</CssParameter>
+                </Fill>
+                <Stroke>
+                    <CssParameter name="stroke">#333333</CssParameter>
+                    <CssParameter name="stroke-width">1</CssParameter>
+                </Stroke>
+            </PolygonSymbolizer>
+            </Rule>
+            <Rule>
+                <Name>Residential</Name>
+                <Title>Residential</Title>
+                <ogc:Filter>
+                    <ogc:PropertyIsEqualTo>
+                        <ogc:PropertyName>USE</ogc:PropertyName>
+                        <ogc:Literal>Residential</ogc:Literal>
+                    </ogc:PropertyIsEqualTo>
+                </ogc:Filter>
+                <PolygonSymbolizer>
+                    <Fill>
+                        <CssParameter name="fill">#e6f598</CssParameter>
+                        <CssParameter name="fill-opacity">1</CssParameter>
+                    </Fill>
+                    <Stroke>
+                        <CssParameter name="stroke">#333333</CssParameter>
+                        <CssParameter name="stroke-width">1</CssParameter>
+                    </Stroke>
+                </PolygonSymbolizer>
+            </Rule>
+            <Rule>
+                <Name>Restaurant</Name>
+                <Title>Restaurant</Title>
+                <ogc:Filter>
+                    <ogc:PropertyIsEqualTo>
+                        <ogc:PropertyName>USE</ogc:PropertyName>
+                        <ogc:Literal>Restaurant</ogc:Literal>
+                    </ogc:PropertyIsEqualTo>
+                </ogc:Filter>
+                <PolygonSymbolizer>
+                    <Fill>
+                        <CssParameter name="fill">#fee08b</CssParameter>
+                        <CssParameter name="fill-opacity">1</CssParameter>
+                    </Fill>
+                    <Stroke>
+                        <CssParameter name="stroke">#333333</CssParameter>
+                        <CssParameter name="stroke-width">1</CssParameter>
+                    </Stroke>
+                </PolygonSymbolizer>
+            </Rule>
+            <Rule>
+                <Name>Storehouse</Name>
+                <Title>Storehouse</Title>
+                <ogc:Filter>
+                    <ogc:PropertyIsEqualTo>
+                        <ogc:PropertyName>USE</ogc:PropertyName>
+                        <ogc:Literal>Storehouse</ogc:Literal>
+                    </ogc:PropertyIsEqualTo>
+                </ogc:Filter>
+                <PolygonSymbolizer>
+                    <Fill>
+                        <CssParameter name="fill">#f46d43</CssParameter>
+                        <CssParameter name="fill-opacity">1</CssParameter>
+                    </Fill>
+                    <Stroke>
+                        <CssParameter name="stroke">#333333</CssParameter>
+                        <CssParameter name="stroke-width">1</CssParameter>
+                    </Stroke>
+                </PolygonSymbolizer>
+            </Rule>
+        </FeatureTypeStyle>
+        </UserStyle>
+    </NamedLayer>
+    </StyledLayerDescriptor>
 
 .. _style-for-postgis-data:
 

@@ -35,7 +35,6 @@ class Classification:
         if self.values:
             self.max_value = max(self.values)
             self.min_value = min(self.values)
-            self.choose_classification_method()
 
         else:
             self.max_value = None

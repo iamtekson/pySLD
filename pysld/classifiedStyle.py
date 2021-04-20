@@ -110,6 +110,7 @@ class ClassifiedStyle(Classification, categorizedStyle, FeatureLabel):
         rule = ''
 
         self.choose_classification_method()
+        self.color_palette_selector()
 
         if self.classes:
             for value, color, i in zip(self.classes, self.color_palette, range(self.number_of_class)):
