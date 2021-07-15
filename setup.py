@@ -8,7 +8,7 @@ about = dict()
 with open(os.path.join(here, "pysld", "__version__.py"), "r") as f:
     exec(f.read(), about)
 
-with open("README.md", "r") as fh:
+with open("Readme.MD", "r") as fh:
     long_description = fh.read()
 
 reqs = [line.strip() for line in open("requirements.txt")]
