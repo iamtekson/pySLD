@@ -12,3 +12,4 @@ pytz
 scipy
 seaborn
 six
+pymongo
