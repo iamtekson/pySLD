@@ -86,7 +86,7 @@ class Classification:
         std = np.std(self.values)
         mean = np.mean(self.values)
 
-        return equal_interval()
+        return self.equal_interval()
 
     def geometrical_interval(self):
         return np.geomspace(self.min_value, self.max_value, num=self.number_of_class+1)
@@ -104,8 +104,6 @@ class Classification:
 
         except TypeError as te:
             return ('The values column must be a list of numeric values. ', te)
-
-        print(type(self.max_value), self.min_value, self.values)
 
         if self.classification_method == 'equal_interval':
             self.classes = self.equal_interval()
