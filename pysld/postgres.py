@@ -79,6 +79,21 @@ class Pg:
 
         return values
 
+    # get all the values from specific column
+    def get_values_from_sql(self, sql_query):
+        values = []
+        with self.conn.cursor() as col_cursor:
+            try:
+                col_cursor.execute(sql_query)
+                values_name = (col_cursor.fetchall())
+                for tup in values_name:
+                    values += [tup[0]]
+
+            except Exception as err:
+                return ("get_columns_names ERROR:", err)
+
+        return values
+
     # create the schema based on the given name
     def create_schema(self, name):
         n = name.split(' ')
@@ -107,7 +122,7 @@ class Pg:
             sql = '''
                 UPDATE "{0}"."{1}" SET "{2}"='{3}' WHERE "{4}"='{5}'
                 '''.format(
-                schema, table, column, value, where_col, where_val)
+                schema, table, column, value, where_column, where_value)
             self.execute_sql(cursor, sql)
             self.conn.commit()
             return ('update table successful')

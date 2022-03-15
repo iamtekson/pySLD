@@ -119,6 +119,8 @@ class StyleSld (ClassifiedStyle, RasterStyle,  Pg):
     halo_radius: numeric
 
     continuous_legend: bool
+
+    float_round: int, It will help to round the element, see more in classification.round_values
     """
 
     def __init__(
@@ -126,6 +128,7 @@ class StyleSld (ClassifiedStyle, RasterStyle,  Pg):
             attribute_name=None,
             values=None,
             number_of_class=5,
+            float_round=None,
             color_palette="Spectral_r",
             style_name='style',
             geom_type='polygon',
@@ -207,6 +210,9 @@ class StyleSld (ClassifiedStyle, RasterStyle,  Pg):
         self.schema = schema
         self.pg_table_name = pg_table_name
 
+        # Other settings
+        self.float_round = float_round
+
     def connect_pg(self, dbname, user, password, host, port):
         self.dbname = dbname
         self.user = user
@@ -239,7 +245,7 @@ class StyleSld (ClassifiedStyle, RasterStyle,  Pg):
         else:
             return self.attribute_name
 
-    def get_values_from_pg(self):
+    def get_values_from_pg(self, sql_query=None):
         """
         Get the values from postgresql and set it to self.values
 
@@ -262,25 +268,32 @@ class StyleSld (ClassifiedStyle, RasterStyle,  Pg):
         if self.conn is None:
             self.connect()
 
+        if sql_query is not None:
+            self.values = self.get_values_from_sql(sql_query)
+
         if self.attribute_name is None:
             self.attribute_name = self.get_attribute_name()
-
-        self.values = self.get_values_from_column(
-            column=self.attribute_name, table=self.pg_table_name, schema=self.schema)
+            self.values = self.get_values_from_column(
+                column=self.attribute_name, table=self.pg_table_name, schema=self.schema)
 
         return self.values
 
     def generate_simple_style(self):
         return self.simple_style()
 
-    def generate_categorized_style(self):
+    def generate_categorized_style(self, values=None):
+        if values:
+            self.values = values
 
         if self.values is None:
             self.get_values_from_pg()
 
         return self.categorized_style()
 
-    def generate_classified_style(self):
+    def generate_classified_style(self, values=None):
+        if values:
+            self.values = values
+
         if self.values is None:
             self.get_values_from_pg()
 
