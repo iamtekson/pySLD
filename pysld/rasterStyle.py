@@ -4,11 +4,12 @@ from .support import RasterColorPalette
 
 
 class RasterStyle(RasterColorPalette):
-    def __init__(self, style_name='coverageStyle', color_palette='Spectral_r', number_of_class=5, opacity=1, continuous_legend=True):
+    def __init__(self, style_name='coverageStyle', color_palette='Spectral_r', number_of_class=5, opacity=1, continuous_legend=True, raster_cutoff_percentage=5):
         super().__init__(color_palette, number_of_class)
         self.style_name = style_name
         self.opacity = opacity
         self.continuous_legend = continuous_legend
+        self.raster_cutoff_percentage = raster_cutoff_percentage
 
         # These fields are auto generated during style creation
         self.cmap_type = ''
@@ -51,6 +52,11 @@ class RasterStyle(RasterColorPalette):
 
         self.max_value = max_value
         self.min_value = min_value
+
+        if self.raster_cutoff_percentage:
+            max_min_diff = self.max_value - self.min_value
+            self.max_value = max_value - max_min_diff * self.raster_cutoff_percentage / 100
+            self.min_value = min_value + max_min_diff * self.raster_cutoff_percentage / 100
 
         self.legend_generator()
         self.color_palette_selector()

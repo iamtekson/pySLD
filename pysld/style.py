@@ -162,6 +162,7 @@ class StyleSld (ClassifiedStyle, RasterStyle,  Pg):
             halo_color="#ffffff",
             halo_radius=1,
             continuous_legend=True,
+            raster_cutoff_percentage=None,
     ):
 
         Pg.__init__(self, dbname, user, password, host, port)
@@ -203,7 +204,8 @@ class StyleSld (ClassifiedStyle, RasterStyle,  Pg):
             color_palette=color_palette,
             number_of_class=number_of_class,
             opacity=opacity,
-            continuous_legend=continuous_legend
+            continuous_legend=continuous_legend,
+            raster_cutoff_percentage=raster_cutoff_percentage,
         )
 
         # The schema of the table from postgresql
