@@ -40,7 +40,7 @@ class RasterStyle(RasterColorPalette):
             self.color_palette = [rgb2hex(i) for i in palette]
 
     def cmap_entry_generator(self):
-        cmap_entry = ''
+        cmap_entry = '<sld:ColorMapEntry color="#000000" label=" 0" quantity="0" opacity="0"/>'
         for i, color, label in zip(range(self.number_of_class), self.color_palette, self.legend_label):
             val = self.min_value + self.interval * i
             cmap_entry += '<sld:ColorMapEntry color="{0}" label=" {1}" quantity="{2}"/> \n'.format(
@@ -85,7 +85,7 @@ class RasterStyle(RasterColorPalette):
                         <sld:SourceChannelName>1</sld:SourceChannelName>
                     </sld:GrayChannel>
                     </sld:ChannelSelection>
-                    <sld:ColorMap type="{0}">
+                    <sld:ColorMap type="{0}" extended='true'>
                         {1}
                     </sld:ColorMap>
                 </sld:RasterSymbolizer>
