@@ -19,6 +19,7 @@ class ClassifiedStyle(Classification, categorizedStyle, FeatureLabel):
                  fill_color='#ffffff',
                  stroke_color="#333333",
                  stroke_width=1,
+                 stroke_opacity=1,
                  opacity=1,
 
                  point_size=6,
@@ -50,6 +51,7 @@ class ClassifiedStyle(Classification, categorizedStyle, FeatureLabel):
             fill_color=fill_color,
             stroke_color=stroke_color,
             stroke_width=stroke_width,
+            stroke_opacity=stroke_opacity,
             opacity=opacity,
 
             point_size=point_size,

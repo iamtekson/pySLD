@@ -136,6 +136,7 @@ class StyleSld (ClassifiedStyle, RasterStyle,  Pg):
             fill_color='#ffffff',
             stroke_color="#333333",
             stroke_width=1,
+            stroke_opacity=1,
             opacity=1,
 
             dbname=None,
@@ -179,6 +180,7 @@ class StyleSld (ClassifiedStyle, RasterStyle,  Pg):
             fill_color=fill_color,
             stroke_color=stroke_color,
             stroke_width=stroke_width,
+            stroke_opacity=stroke_opacity,
             opacity=opacity,
 
             point_size=point_size,
@@ -270,11 +272,13 @@ class StyleSld (ClassifiedStyle, RasterStyle,  Pg):
         if self.conn is None:
             self.connect()
 
+        if self.attribute_name is None:
+            self.attribute_name = self.get_attribute_name()
+
         if sql_query is not None:
             self.values = self.get_values_from_sql(sql_query)
 
-        if self.attribute_name is None:
-            self.attribute_name = self.get_attribute_name()
+        else:
             self.values = self.get_values_from_column(
                 column=self.attribute_name, table=self.pg_table_name, schema=self.schema)
 

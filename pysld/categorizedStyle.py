@@ -15,6 +15,7 @@ class categorizedStyle(SimpleStyle, VectorColorPalette):
                  fill_color='#ffffff',
                  stroke_color="#333333",
                  stroke_width=1,
+                 stroke_opacity=1,
                  opacity=1,
 
                  point_size=6,
@@ -40,6 +41,7 @@ class categorizedStyle(SimpleStyle, VectorColorPalette):
                              fill_color=fill_color,
                              stroke_color=stroke_color,
                              stroke_width=stroke_width,
+                             stroke_opacity=stroke_opacity,
                              opacity=opacity,
 
                              point_size=point_size,
@@ -74,12 +76,12 @@ class categorizedStyle(SimpleStyle, VectorColorPalette):
         if self.values is None:
             raise ValueError('The values should be list of catagory')
 
-        elif self.number_of_class != len(self.values):
+        if self.number_of_class is None:
             self.number_of_class = len(self.values)
 
-        else:
-            raise ValueError(
-                'There is a problem during get_number_of_class method.')
+        # else:
+        #     raise ValueError(
+        #         'There is a problem during get_number_of_class method.')
 
     def point_symbolizer_generator(self, fill_color):
         symbolizer = '''
@@ -94,13 +96,14 @@ class categorizedStyle(SimpleStyle, VectorColorPalette):
                         <Stroke>
                             <CssParameter name="stroke">{3}</CssParameter>
                             <CssParameter name="stroke-width">{4}</CssParameter>
+                            <CssParameter name="stroke-opacity">{7}</CssParameter>
                         </Stroke>
                     </Mark>
                 <Size>{5}</Size>
                 <Rotation>{6}</Rotation>
                 </Graphic>
             </PointSymbolizer>
-        '''.format(self.well_known_name, fill_color, self.opacity, self.stroke_color, self.stroke_width, self.point_size, self.point_rotation)
+        '''.format(self.well_known_name, fill_color, self.opacity, self.stroke_color, self.stroke_width, self.point_size, self.point_rotation, self.stroke_opacity)
 
         return symbolizer
 
@@ -121,11 +124,12 @@ class categorizedStyle(SimpleStyle, VectorColorPalette):
                         <CssParameter name="stroke">{0}</CssParameter>
                         <CssParameter name="stroke-width">{1}</CssParameter>
                         <CssParameter name="stroke-linecap">{2}</CssParameter> 
+                        <CssParameter name="stroke-opacity">{5}</CssParameter>
                         {3}
                     </Stroke>
                     {4}
                 </LineSymbolizer>
-        '''.format(stroke_color, self.stroke_linecap, dasharray, perpendicular_offset)
+        '''.format(stroke_color, self.stroke_width, self.stroke_linecap, dasharray, perpendicular_offset, self.stroke_opacity)
 
         return symbolizer
 
@@ -139,9 +143,10 @@ class categorizedStyle(SimpleStyle, VectorColorPalette):
                     <Stroke>
                         <CssParameter name="stroke">{2}</CssParameter>
                         <CssParameter name="stroke-width">{3}</CssParameter>
+                        <CssParameter name="stroke-opacity">{4}</CssParameter>
                     </Stroke>
                 </PolygonSymbolizer>
-        '''.format(fill_color, self.opacity, self.stroke_color, self.stroke_width)
+        '''.format(fill_color, self.opacity, self.stroke_color, self.stroke_width, self.stroke_opacity)
 
         return symbolizer
 

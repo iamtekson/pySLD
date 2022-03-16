@@ -10,6 +10,7 @@ class SimpleStyle(FeatureLabel):
             fill_color='#ffffff',
             stroke_color="#333333",
             stroke_width=1,
+            stroke_opacity=1,
             opacity=1,
 
             point_size=6,
@@ -39,6 +40,7 @@ class SimpleStyle(FeatureLabel):
         self.fill_color = fill_color
         self.stroke_color = stroke_color
         self.stroke_width = stroke_width
+        self.stroke_opacity = stroke_opacity,
         self.opacity = opacity
         self.feature_label = feature_label
 
