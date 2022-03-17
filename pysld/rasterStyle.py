@@ -22,7 +22,6 @@ class RasterStyle(RasterColorPalette):
 
         if type(self.color_palette) is dict:
             self.legend_label = list(self.color_palette.keys())
-            print(self.legend_label)
 
         else:
             for i in range(len(self.color_palette)):
@@ -40,11 +39,24 @@ class RasterStyle(RasterColorPalette):
             self.color_palette = [rgb2hex(i) for i in palette]
 
     def cmap_entry_generator(self):
-        cmap_entry = '<sld:ColorMapEntry color="#000000" label=" 0" quantity="0" opacity="0"/>'
+
+        cmap_entry = ''
         for i, color, label in zip(range(self.number_of_class), self.color_palette, self.legend_label):
             val = self.min_value + self.interval * i
-            cmap_entry += '<sld:ColorMapEntry color="{0}" label=" {1}" quantity="{2}"/> \n'.format(
-                color, label, val)
+
+            if self.float_round:
+                try:
+                    label = round(label, self.float_round)
+
+                except:
+                    pass
+
+            if (i == 0 and int(self.min_value) == 0):
+                cmap_entry += '<sld:ColorMapEntry color="#000000" label=" 0" quantity="0" opacity="0"/>'
+
+            else:
+                cmap_entry += '<sld:ColorMapEntry color="{0}" label=" {1}" quantity="{2}"/> \n'.format(
+                    color, label, val)
 
         return cmap_entry
 
@@ -65,7 +77,7 @@ class RasterStyle(RasterColorPalette):
             self.cmap_type = 'range'
 
         else:
-            self.cmap_type = 'intervals'
+            self.cmap_type = 'values'
 
         cmap_entry = self.cmap_entry_generator()
         style = """
