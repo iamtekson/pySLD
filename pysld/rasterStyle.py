@@ -70,8 +70,8 @@ class RasterStyle(RasterColorPalette):
             self.max_value = max_value - max_min_diff * self.raster_cutoff_percentage / 100
             self.min_value = min_value + max_min_diff * self.raster_cutoff_percentage / 100
 
-        self.legend_generator()
         self.color_palette_selector()
+        self.legend_generator()
 
         if self.continuous_legend:
             self.cmap_type = 'range'

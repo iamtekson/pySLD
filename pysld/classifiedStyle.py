@@ -88,8 +88,8 @@ class ClassifiedStyle(Classification, categorizedStyle, FeatureLabel):
 
         rule = '''
         <Rule>
-            <Name>&gt;= {0} and &lt; {1}</Name>
-            <Title>&gt;= {0} and &lt; {1}</Title>
+            <Name> {0}-{1}</Name>
+            <Title>{0}-{1}</Title>
             <ogc:Filter>
                     <ogc:And>
                     <ogc:PropertyIsGreaterThanOrEqualTo>
