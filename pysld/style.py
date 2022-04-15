@@ -288,11 +288,14 @@ class StyleSld (ClassifiedStyle, RasterStyle,  Pg):
         return self.simple_style()
 
     def generate_categorized_style(self, values=None):
+
         if values:
             self.values = values
 
         if self.values is None:
             self.get_values_from_pg()
+
+        self.number_of_class = len(self.values)
 
         return self.categorized_style()
 
