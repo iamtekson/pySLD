@@ -128,7 +128,7 @@ class ClassifiedStyle(Classification, categorizedStyle, FeatureLabel):
                     heigher_limit = self.classes[i + 1]
 
                     # In last set of rule, need to increase the value by 0.1 so that it will be visualize in system. #5
-                    if i == self.number_of_class:
+                    if i == self.number_of_class - 1:
                         heigher_limit = self.classes[i+1] + 0.1
 
                     rule += self.classified_rule_generator(
