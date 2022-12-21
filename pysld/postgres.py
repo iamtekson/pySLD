@@ -30,7 +30,6 @@ class Pg:
     def execute_sql(self, cursor, sql):
         try:
             cursor.execute(sql)
-
         except Exception as err:
             return ('ERROR: ', err)
 
@@ -46,17 +45,15 @@ class Pg:
                 col_names_str += "table_name = '{}';".format(table)
                 sql_object = sql.SQL(col_names_str).format(
                     sql.Identifier(table))
-                # try:
                 col_cursor.execute(sql_object)
                 col_names = (col_cursor.fetchall())
                 for tup in col_names:
                     columns += [tup[0]]
-                # except Exception as err:
-                #     return ("get_columns_names ERROR:", err)
-
+            self.conn.close()
             return columns
         except Exception as e:
             self.conn.rollback()
+            self.conn.close()
             return ("pySLD get_column_names ERROR:", e)
 
     # get all the values from specific column
@@ -74,17 +71,15 @@ class Pg:
                 sql_object = sql.SQL(all_values_str).format(
                     sql.Identifier(column), sql.Identifier(table))
 
-                # try:
                 col_cursor.execute(sql_object, (column))
                 values_name = (col_cursor.fetchall())
                 for tup in values_name:
                     values += [tup[0]]
-                # except Exception as err:
-                #     return ("get_columns_names ERROR:", err)
-
+            self.conn.close()
             return values
         except Exception as e:
             self.conn.rollback()
+            self.conn.close()
             return ("PYSLD get_values_from_column ERROR:", e)
 
     # get all the values from specific column
@@ -92,16 +87,15 @@ class Pg:
         values = []
         try:
             with self.conn.cursor() as col_cursor:
-                # try:
                 col_cursor.execute(sql_query)
                 values_name = (col_cursor.fetchall())
                 for tup in values_name:
                     values += [tup[0]]
-                # except Exception as err:
-                #     return ("get_columns_names ERROR:", err)
+            self.conn.close()
             return values
         except Exception as e:
             self.conn.rollback()
+            self.conn.close()
             return ("PYSLD get_values_from_sql ERROR:", e)
 
     # create the schema based on the given name
@@ -114,9 +108,11 @@ class Pg:
                 sql = f'''CREATE SCHEMA IF NOT EXISTS {name}'''
                 self.execute_sql(cursor, sql)
                 self.conn.commit()
+                self.conn.close()
                 return ('Schema create successfully')
         except Exception as e:
             self.conn.rollback()
+            self.conn.close()
             return ("PYSLD create_schema ERROR:", e)
 
     # create new column in table
@@ -127,9 +123,11 @@ class Pg:
                     table, column, col_datatype, schema)
                 self.execute_sql(cursor, sql)
                 self.conn.commit()
+                self.conn.close()
                 return ('create column successful')
         except Exception as e:
             self.conn.rollback()
+            self.conn.close()
             return ("PYSLD create_column ERROR:", e)
 
     # update column
@@ -142,9 +140,11 @@ class Pg:
                     schema, table, column, value, where_column, where_value)
                 self.execute_sql(cursor, sql)
                 self.conn.commit()
+                self.conn.close()
                 return ('update table successful')
         except Exception as e:
             self.conn.rollback()
+            self.conn.close()
             return ("PYSLD update_column ERROR:", e)
 
     # delete table
@@ -155,9 +155,11 @@ class Pg:
                     schema, name)
                 self.execute_sql(cursor, sql)
                 self.conn.commit()
+                self.conn.close()
                 return ('{} table dropped successfully.'.format(name))
         except Exception as e:
             self.conn.rollback()
+            self.conn.close()
             return ("PYSLD delete_table ERROR:", e)
         
     # Delete values
@@ -168,7 +170,9 @@ class Pg:
                     schema, table_name, condition)
                 self.execute_sql(cursor, sql)
                 self.conn.commit()
+                self.conn.close()
                 return ('Values dropped successfully.')
         except Exception as e:
             self.conn.rollback()
+            self.conn.close()
             return ("PYSLD delete_values ERROR:", e)
