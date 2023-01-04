@@ -224,7 +224,8 @@ class StyleSld (ClassifiedStyle, RasterStyle,  Pg):
         self.host = host
         self.port = port
 
-        self.connect()
+        # self.connect()
+        # self.connect_db()
 
     def get_attribute_name(self, pg_table_name=None):
         '''
@@ -232,8 +233,9 @@ class StyleSld (ClassifiedStyle, RasterStyle,  Pg):
         The attribute name will be the column_name of the shapefile attribute table.
         '''
 
-        if self.conn is None:
-            self.connect()
+        # if self.conn is None:
+            # self.connect()
+            # self.connect_db()
 
         if pg_table_name is not None:
             self.pg_table_name = pg_table_name
@@ -269,8 +271,9 @@ class StyleSld (ClassifiedStyle, RasterStyle,  Pg):
 
         self.schema: str
         """
-        if self.conn is None:
-            self.connect()
+        # if self.conn is None:
+            # self.connect()
+            # self.connect_db()
 
         if self.attribute_name is None:
             self.attribute_name = self.get_attribute_name()
