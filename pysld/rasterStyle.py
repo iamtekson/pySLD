@@ -44,12 +44,12 @@ class RasterStyle(RasterColorPalette):
         for i, color, label in zip(range(self.number_of_class), self.color_palette, self.legend_label):
             val = self.min_value + self.interval * i
 
-            if self.float_round:
-                try:
-                    label = round(label, self.float_round)
+            # if self.float_round:
+            #     try:
+            #         label = round(label, self.float_round)
 
-                except:
-                    pass
+            #     except:
+            #         pass
 
             if (i == 0 and int(self.min_value) == 0):
                 cmap_entry += '<sld:ColorMapEntry color="#000000" label=" 0" quantity="0" opacity="0"/>'
