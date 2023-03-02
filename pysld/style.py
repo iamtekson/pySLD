@@ -128,7 +128,7 @@ class StyleSld (ClassifiedStyle, RasterStyle,  Pg):
             attribute_name=None,
             values=None,
             number_of_class=5,
-            float_round=2,
+            # float_round=2,
             color_palette="Spectral_r",
             style_name='style',
             geom_type='polygon',
@@ -197,7 +197,8 @@ class StyleSld (ClassifiedStyle, RasterStyle,  Pg):
             font_weight=font_weight,
             font_style=font_style,
             halo_color=halo_color,
-            halo_radius=halo_radius
+            halo_radius=halo_radius,
+            # float_round=float_round
         )
 
         RasterStyle.__init__(
@@ -215,7 +216,7 @@ class StyleSld (ClassifiedStyle, RasterStyle,  Pg):
         self.pg_table_name = pg_table_name
 
         # Other settings
-        self.float_round = float_round
+        # self.float_round = float_round
 
     def connect_pg(self, dbname, user, password, host, port):
         self.dbname = dbname

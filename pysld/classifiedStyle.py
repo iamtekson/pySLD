@@ -37,7 +37,8 @@ class ClassifiedStyle(Classification, categorizedStyle, FeatureLabel):
                  font_weight='normal',
                  font_style="normal",
                  halo_color="#ffffff",
-                 halo_radius=1
+                 halo_radius=1,
+                #  float_round=2
                  ):
 
         categorizedStyle.__init__(
@@ -69,7 +70,8 @@ class ClassifiedStyle(Classification, categorizedStyle, FeatureLabel):
             font_weight=font_weight,
             font_style=font_style,
             halo_color=halo_color,
-            halo_radius=halo_radius
+            halo_radius=halo_radius,
+            # float_round=float_round
         )
 
         Classification.__init__(
@@ -107,8 +109,8 @@ class ClassifiedStyle(Classification, categorizedStyle, FeatureLabel):
         '''.format(lower_limit, heigher_limit, self.attribute_name, symbolizer)
         return rule
 
-    def round_values(self, in_array, float_round):
-        return [round(elem, float_round) for elem in in_array]
+    # def round_values(self, in_array, float_round):
+    #     return [round(elem, float_round) for elem in in_array]
 
     def classified_style(self):
 
@@ -117,8 +119,8 @@ class ClassifiedStyle(Classification, categorizedStyle, FeatureLabel):
         self.choose_classification_method()
         self.color_palette_selector()
 
-        if self.float_round:
-            self.classes = self.round_values(self.classes, self.float_round)
+        # if self.float_round:
+        #     self.classes = self.round_values(self.classes, self.float_round)
 
         if self.classes:
             for value, color, i in zip(self.classes, self.color_palette, range(self.number_of_class)):
