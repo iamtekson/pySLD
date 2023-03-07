@@ -109,8 +109,8 @@ class ClassifiedStyle(Classification, categorizedStyle, FeatureLabel):
         '''.format(lower_limit, heigher_limit, self.attribute_name, symbolizer)
         return rule
 
-    # def round_values(self, in_array, float_round):
-    #     return [round(elem, float_round) for elem in in_array]
+    def round_values(self, in_array, float_round):
+        return [round(elem, float_round) for elem in in_array]
 
     def classified_style(self):
 
@@ -121,6 +121,10 @@ class ClassifiedStyle(Classification, categorizedStyle, FeatureLabel):
 
         # if self.float_round:
         #     self.classes = self.round_values(self.classes, self.float_round)
+        try:
+            self.classes = self.round_values(self.classes, 2)
+        except:
+            pass
 
         if self.classes:
             for value, color, i in zip(self.classes, self.color_palette, range(self.number_of_class)):
