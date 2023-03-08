@@ -26,8 +26,10 @@ class RasterStyle(RasterColorPalette):
         else:
             for i in range(len(self.color_palette)):
                 val = self.min_value + self.interval * i
-                self.legend_label.append(val)
+                # self.legend_label.append(val)
+                self.legend_label.append(round(val, 2))
 
+ 
     def color_palette_selector(self):
         if type(self.color_palette) is dict:
             self.number_of_class = len(self.color_palette)
