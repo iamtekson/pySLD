@@ -281,11 +281,14 @@ class StyleSld (ClassifiedStyle, RasterStyle,  Pg):
 
         if sql_query is not None:
             self.values = self.get_values_from_sql(sql_query)
-
+            
         else:
             self.values = self.get_values_from_column(
                 column=self.attribute_name, table=self.pg_table_name, schema=self.schema)
-
+        if self.values and len(set(self.values))<5:
+            print(len(set(self.values)),"generate_classified_style len of values")
+            self.number_of_class=len(set(self.values))
+            print(self.number_of_class,"generate_classified_style123 no of class")
         return self.values
 
     def generate_simple_style(self):
@@ -304,10 +307,17 @@ class StyleSld (ClassifiedStyle, RasterStyle,  Pg):
         return self.categorized_style()
 
     def generate_classified_style(self, values=None):
+        print("generate_classified_style called")
         if values:
+            print("if values")
             self.values = values
+            if self.values and len(set(self.values))<5:
+                print(len(set(self.values)),"generate_classified_style len of values")
+                self.number_of_class=len(set(self.values))
+                print(self.number_of_class,"generate_classified_style123 no of class")
 
         if self.values is None:
+            print("if values is none")
             self.get_values_from_pg()
 
         return self.classified_style()

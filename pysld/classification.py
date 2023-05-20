@@ -29,6 +29,10 @@ class Classification:
     def __init__(self, values, number_of_class=5, classification_method='natural_break'):
         self.values = values
         self.number_of_class = number_of_class
+        print(values,"values classification")
+        if values and len(set(values))<5:
+            self.number_of_class=len(set(self.values))
+        print(self.number_of_class,"self.number_of_class")
         self.classification_method = classification_method
 
         # The following values will be generated based on values
@@ -42,6 +46,8 @@ class Classification:
             self.classes = None
 
     def jenks_breaks(self):
+        print(self.values,"jenks_breaks self.values")
+        print(self.number_of_class,"jenks_breaks self.number_of_class")
         return jenkspy.jenks_breaks(self.values, self.number_of_class)
 
     def equal_interval(self):
