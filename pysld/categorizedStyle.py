@@ -3,7 +3,6 @@ from matplotlib.colors import rgb2hex
 from .simpleStyle import SimpleStyle
 from .support import VectorColorPalette
 
-
 class categorizedStyle(SimpleStyle, VectorColorPalette):
     def __init__(self,
                  attribute_name,
@@ -175,16 +174,15 @@ class categorizedStyle(SimpleStyle, VectorColorPalette):
             {2}
         </Rule>
         '''.format(attribute_value, self.attribute_name, symbolizer)
-
         return rule
 
     def categorized_style(self):
-
-        self.get_number_of_class()
-        self.color_palette_selector()
-
-        rule = ''
-        for val, color in zip(self.values, self.color_palette):
-            rule += self.categorized_rule_generator(val, fill_color=color)
-
-        return self.style_generator(rule)
+        try:
+            self.get_number_of_class()
+            self.color_palette_selector()
+            rule = ''
+            for val, color in zip(self.values, self.color_palette):
+                rule += self.categorized_rule_generator(val, fill_color=color)
+            return self.style_generator(rule)
+        except Exception as e:
+            print(f'error from categorized_style function: {str(e)}')

@@ -5,7 +5,6 @@ from .rasterStyle import RasterStyle
 from matplotlib.colors import rgb2hex
 from .support import str_to_num
 
-
 class StyleSld (ClassifiedStyle, RasterStyle,  Pg):
     """
     This is the main style class for generating the SLD files.
@@ -286,38 +285,29 @@ class StyleSld (ClassifiedStyle, RasterStyle,  Pg):
             self.values = self.get_values_from_column(
                 column=self.attribute_name, table=self.pg_table_name, schema=self.schema)
         if self.values and len(set(self.values))<5:
-            print(len(set(self.values)),"generate_classified_style len of values")
             self.number_of_class=len(set(self.values))
-            print(self.number_of_class,"generate_classified_style123 no of class")
         return self.values
 
     def generate_simple_style(self):
         return self.simple_style()
 
     def generate_categorized_style(self, values=None):
-
         if values:
             self.values = values
 
         if self.values is None:
             self.get_values_from_pg()
-
         self.number_of_class = len(self.values)
 
         return self.categorized_style()
 
     def generate_classified_style(self, values=None):
-        print("generate_classified_style called")
         if values:
-            print("if values")
             self.values = values
             if self.values and len(set(self.values))<5:
-                print(len(set(self.values)),"generate_classified_style len of values")
                 self.number_of_class=len(set(self.values))
-                print(self.number_of_class,"generate_classified_style123 no of class")
 
         if self.values is None:
-            print("if values is none")
             self.get_values_from_pg()
 
         return self.classified_style()
