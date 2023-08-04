@@ -286,6 +286,8 @@ class StyleSld (ClassifiedStyle, RasterStyle,  Pg):
                 column=self.attribute_name, table=self.pg_table_name, schema=self.schema)
         if self.values and len(set(self.values))<5:
             self.number_of_class=len(set(self.values))
+        if 0.0 not in self.values:
+            self.values.append(0.0)
         return self.values
 
     def generate_simple_style(self):
@@ -302,15 +304,27 @@ class StyleSld (ClassifiedStyle, RasterStyle,  Pg):
         return self.categorized_style()
 
     def generate_classified_style(self, values=None):
-        if values:
-            self.values = values
-            if self.values and len(set(self.values))<5:
-                self.number_of_class=len(set(self.values))
-
-        if self.values is None:
+        if self.values or values:
+            temp_values=self.values if self.values else values
+            self.number_of_class=5
+            if len(set(temp_values))<5:
+                if len(set(temp_values))>1:
+                    temp_values.sort()
+                    min_val=temp_values[0]
+                    max_val=temp_values[-1]
+                    for i in range(3):
+                        temp_values.append(round(random.uniform(min_val,max_val),2))
+                else:
+                    self.number_of_class=len(set(values))
+                    #! HANDLE EXCEPTION HERE
+                    pass 
+            if 0.0 not in temp_values:
+                temp_values.append(0.0)
+            self.values = temp_values
+        else:
             self.get_values_from_pg()
-
         return self.classified_style()
 
     def generate_raster_style(self, max_value, min_value):
         return self.coverage_style(max_value, min_value)
+
