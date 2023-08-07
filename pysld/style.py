@@ -286,8 +286,10 @@ class StyleSld (ClassifiedStyle, RasterStyle,  Pg):
                 column=self.attribute_name, table=self.pg_table_name, schema=self.schema)
         if self.values and len(set(self.values))<5:
             self.number_of_class=len(set(self.values))
-        if 0.0 not in self.values:
-            self.values.append(0.0)
+        if all(isinstance(value, (int, float)) for value in self.values) and 0 not in self.values:
+                self.values.append(0.0)
+        # if 0.0 not in self.values:
+        #     self.values.append(0.0)
         return self.values
 
     def generate_simple_style(self):
@@ -318,8 +320,10 @@ class StyleSld (ClassifiedStyle, RasterStyle,  Pg):
                     self.number_of_class=len(set(values))
                     #! HANDLE EXCEPTION HERE
                     pass 
-            if 0.0 not in temp_values:
+            if all(isinstance(value, (int, float)) for value in temp_values) and 0 not in temp_values:
                 temp_values.append(0.0)
+            # if 0.0 not in temp_values:
+            #     temp_values.append(0.0)
             self.values = temp_values
         else:
             self.get_values_from_pg()
