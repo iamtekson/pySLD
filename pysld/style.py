@@ -286,7 +286,11 @@ class StyleSld (ClassifiedStyle, RasterStyle,  Pg):
                 column=self.attribute_name, table=self.pg_table_name, schema=self.schema)
         if self.values and len(set(self.values))<5:
             self.number_of_class=len(set(self.values))
-        if all(isinstance(value, (int, float)) for value in self.values) and 0 not in self.values:
+        # if all(isinstance(value, (int, float)) for value in self.values) and 0 not in self.values:
+        #     self.values.append(0.0)
+        if all(isinstance(value, (int, float)) for value in self.values):
+            int_temp_values=[int(value) for value in self.values]
+            if 0 not in int_temp_values:
                 self.values.append(0.0)
         # if 0.0 not in self.values:
         #     self.values.append(0.0)
@@ -320,8 +324,12 @@ class StyleSld (ClassifiedStyle, RasterStyle,  Pg):
                     self.number_of_class=len(set(values))
                     #! HANDLE EXCEPTION HERE
                     pass 
-            if all(isinstance(value, (int, float)) for value in temp_values) and 0 not in temp_values:
-                temp_values.append(0.0)
+            if all(isinstance(value, (int, float)) for value in temp_values):
+                int_temp_values=[int(value) for value in temp_values]
+                if 0 not in int_temp_values:
+                    temp_values.append(0.0)
+            # if all(isinstance(value, (int, float)) for value in temp_values) and 0 not in temp_values:
+            #     temp_values.append(0.0)
             # if 0.0 not in temp_values:
             #     temp_values.append(0.0)
             self.values = temp_values
