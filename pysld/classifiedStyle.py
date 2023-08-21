@@ -128,7 +128,7 @@ class ClassifiedStyle(Classification, categorizedStyle, FeatureLabel):
 
         if self.classes:
             for value, color, i in zip(self.classes, self.color_palette, range(self.number_of_class)):
-
+                print(self.classes,"classified style classes")
                 try:
                     lower_limit = self.classes[i]
                     heigher_limit = self.classes[i + 1]

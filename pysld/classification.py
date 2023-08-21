@@ -48,6 +48,7 @@ class Classification:
     def jenks_breaks(self):
         print(self.values,"jenks_breaks self.values")
         print(self.number_of_class,"jenks_breaks self.number_of_class")
+        print(jenkspy.jenks_breaks(self.values, self.number_of_class),"jenkspy.jenks_breaks(self.values, self.number_of_class)")
         return jenkspy.jenks_breaks(self.values, self.number_of_class)
 
     def equal_interval(self):
@@ -59,6 +60,7 @@ class Classification:
             output.append(val)
 
         output.append(self.max_value)
+        print(output, "output from equal interval")
 
         return output
 
