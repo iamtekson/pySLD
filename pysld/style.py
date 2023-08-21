@@ -294,6 +294,7 @@ class StyleSld (ClassifiedStyle, RasterStyle,  Pg):
                 self.values.append(0.0)
         # if 0.0 not in self.values:
         #     self.values.append(0.0)
+        print(self.values,"temp valuesssssssssssssssss functionnnnnn")
         return self.values
 
     def generate_simple_style(self):
@@ -328,6 +329,7 @@ class StyleSld (ClassifiedStyle, RasterStyle,  Pg):
                 int_temp_values=[int(value) for value in temp_values]
                 if 0 not in int_temp_values:
                     temp_values.append(0.0)
+            print(temp_values,"temp valuesssssssssssssssss")
             # if all(isinstance(value, (int, float)) for value in temp_values) and 0 not in temp_values:
             #     temp_values.append(0.0)
             # if 0.0 not in temp_values:
