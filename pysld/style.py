@@ -289,12 +289,15 @@ class StyleSld (ClassifiedStyle, RasterStyle,  Pg):
         # if all(isinstance(value, (int, float)) for value in self.values) and 0 not in self.values:
         #     self.values.append(0.0)
         print(self.values,"temp valuesssssssssssssssss functionnnnnn")
-        self.values = [float(value) for value in self.values]
-        print(self.values,"temp valuesssssssssssssssss after converting decimal to float")
-        # if all(isinstance(value, (int, float)) for value in self.values):
-        #     int_temp_values=[int(value) for value in self.values]
-        if 0.0 not in self.values:
-            self.values.append(0.0)
+        try:
+            self.values = [float(value) for value in self.values]
+            print(self.values,"temp valuesssssssssssssssss after converting decimal to float")
+            # if all(isinstance(value, (int, float)) for value in self.values):
+            #     int_temp_values=[int(value) for value in self.values]
+            if 0.0 not in self.values:
+                self.values.append(0.0)
+        except:
+            print("its a string values")
         # if 0.0 not in self.values:
         #     self.values.append(0.0)
         
@@ -329,13 +332,16 @@ class StyleSld (ClassifiedStyle, RasterStyle,  Pg):
                     #! HANDLE EXCEPTION HERE
                     pass 
             print(temp_values,"temp valuesssssssssssssssss before")
-            temp_values = [float(value) for value in temp_values]
-            print(temp_values,"temp valuesssssssssssssssss after converting to float")
-            # if all(isinstance(value, (int, float)) for value in temp_values):
-            #     int_temp_values=[int(value) for value in temp_values]
-            if 0.0 not in temp_values:
-                temp_values.append(0.0)
-            print(temp_values,"temp valuesssssssssssssssss after 0.0")
+            try:
+                temp_values = [float(value) for value in temp_values]
+                print(temp_values,"temp valuesssssssssssssssss after converting to float")
+                # if all(isinstance(value, (int, float)) for value in temp_values):
+                #     int_temp_values=[int(value) for value in temp_values]
+                if 0.0 not in temp_values:
+                    temp_values.append(0.0)
+                print(temp_values,"temp valuesssssssssssssssss after 0.0")
+            except:
+                print("its string dataset")
             # if all(isinstance(value, (int, float)) for value in temp_values) and 0 not in temp_values:
             #     temp_values.append(0.0)
             # if 0.0 not in temp_values:
