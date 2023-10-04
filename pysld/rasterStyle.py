@@ -41,31 +41,38 @@ class RasterStyle(RasterColorPalette):
             self.color_palette = [rgb2hex(i) for i in palette]
 
     def cmap_entry_generator(self):
-
+        
         cmap_entry = ''
-        for i, color, label in zip(range(self.number_of_class), self.color_palette, self.legend_label):
-            val = self.min_value + self.interval * i
-
-            # if self.float_round:
-            #     try:
-            #         label = round(label, self.float_round)
-
-            #     except:
-            #         pass
-
-            if (i == 0 and int(self.min_value) == 0):
-                cmap_entry += '<sld:ColorMapEntry color="#000000" label=" 0" quantity="0" opacity="0"/>'
-
-            else:
-                cmap_entry += '<sld:ColorMapEntry color="{0}" label=" {1}" quantity="{2}"/> \n'.format(
-                    color, label, val)
-
+        if self.cmap_type == 'range':
+            for i, color, label in zip(range(self.number_of_class), self.color_palette, self.legend_label):
+                val = self.min_value + self.interval * i
+                # if self.float_round:
+                #     try:
+                #         label = round(label, self.float_round)
+                #     except:
+                #         pass
+                if (i == 0 and int(self.min_value) == 0):
+                    cmap_entry += '<sld:ColorMapEntry color="#000000" label=" 0" quantity="0" opacity="0"/>'
+                else:
+                    cmap_entry += '<sld:ColorMapEntry color="{0}" label=" {1}" quantity="{2}"/> \n'.format(
+                        color, label, val)
+        else:
+            for i, color in zip(range(len(self.unique_values)), self.color_palette):
+                val = self.unique_values[i]
+                label=self.legend_label[i]
+                if (i == 0 and int(self.min_value) == 0):
+                    cmap_entry += '<sld:ColorMapEntry color="#000000" label=" 0" quantity="0" opacity="0"/>'
+                else:
+                    cmap_entry += '<sld:ColorMapEntry color="{0}" label=" {1}" quantity="{2}"/> \n'.format(
+                        color,label, val)
         return cmap_entry
 
-    def coverage_style(self, max_value, min_value):
+    def coverage_style(self, max_value, min_value,unique_values,legend_label):
 
         self.max_value = max_value
         self.min_value = min_value
+        self.unique_values = unique_values
+        self.legend_label = legend_label
 
         if self.raster_cutoff_percentage:
             max_min_diff = self.max_value - self.min_value
@@ -73,11 +80,10 @@ class RasterStyle(RasterColorPalette):
             self.min_value = min_value + max_min_diff * self.raster_cutoff_percentage / 100
 
         self.color_palette_selector()
-        self.legend_generator()
-
+        
         if self.continuous_legend:
             self.cmap_type = 'range'
-
+            self.legend_generator()
         else:
             self.cmap_type = 'values'
 
@@ -111,3 +117,4 @@ class RasterStyle(RasterColorPalette):
         """.format(self.cmap_type, cmap_entry, self.style_name, self.opacity)
 
         return style
+

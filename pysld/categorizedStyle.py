@@ -2,6 +2,8 @@ import seaborn as sns
 from matplotlib.colors import rgb2hex
 from .simpleStyle import SimpleStyle
 from .support import VectorColorPalette
+# import logging
+# logger = logging.getLogger(__file__)
 
 class categorizedStyle(SimpleStyle, VectorColorPalette):
     def __init__(self,
@@ -177,12 +179,16 @@ class categorizedStyle(SimpleStyle, VectorColorPalette):
         return rule
 
     def categorized_style(self):
+        #Handled only for point, line and polygon (not geometry)
+        # logger.info("categorized style")
         try:
             self.get_number_of_class()
             self.color_palette_selector()
             rule = ''
             for val, color in zip(self.values, self.color_palette):
                 rule += self.categorized_rule_generator(val, fill_color=color)
+            # logger.info(f"{rule} rileeeeeeeeeeee" )
             return self.style_generator(rule)
         except Exception as e:
+            # logger.info(f'error from categorized_style function: {str(e)}')
             print(f'error from categorized_style function: {str(e)}')

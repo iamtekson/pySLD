@@ -4,6 +4,8 @@ from .classifiedStyle import ClassifiedStyle
 from .rasterStyle import RasterStyle
 from matplotlib.colors import rgb2hex
 from .support import str_to_num
+# import logging
+# logger = logging.getLogger(__file__)
 
 class StyleSld (ClassifiedStyle, RasterStyle,  Pg):
     """
@@ -288,10 +290,8 @@ class StyleSld (ClassifiedStyle, RasterStyle,  Pg):
             self.number_of_class=len(set(self.values))
         # if all(isinstance(value, (int, float)) for value in self.values) and 0 not in self.values:
         #     self.values.append(0.0)
-        print(self.values,"temp valuesssssssssssssssss functionnnnnn")
         try:
             self.values = [float(value) for value in self.values]
-            print(self.values,"temp valuesssssssssssssssss after converting decimal to float")
             # if all(isinstance(value, (int, float)) for value in self.values):
             #     int_temp_values=[int(value) for value in self.values]
             if 0.0 not in self.values:
@@ -307,13 +307,15 @@ class StyleSld (ClassifiedStyle, RasterStyle,  Pg):
         return self.simple_style()
 
     def generate_categorized_style(self, values=None):
+        # logger.info("generate categorized style")
         if values:
             self.values = values
 
         if self.values is None:
             self.get_values_from_pg()
         self.number_of_class = len(self.values)
-
+        # logger.info(f'{self.number_of_class} self.number_of_class')
+        # logger.info(f'{self.values} self.values')
         return self.categorized_style()
 
     def generate_classified_style(self, values=None):
@@ -331,15 +333,12 @@ class StyleSld (ClassifiedStyle, RasterStyle,  Pg):
                     self.number_of_class=len(set(values))
                     #! HANDLE EXCEPTION HERE
                     pass 
-            print(temp_values,"temp valuesssssssssssssssss before")
             try:
                 temp_values = [float(value) for value in temp_values]
-                print(temp_values,"temp valuesssssssssssssssss after converting to float")
                 # if all(isinstance(value, (int, float)) for value in temp_values):
                 #     int_temp_values=[int(value) for value in temp_values]
                 if 0.0 not in temp_values:
                     temp_values.append(0.0)
-                print(temp_values,"temp valuesssssssssssssssss after 0.0")
             except:
                 print("its string dataset")
             # if all(isinstance(value, (int, float)) for value in temp_values) and 0 not in temp_values:
@@ -351,6 +350,6 @@ class StyleSld (ClassifiedStyle, RasterStyle,  Pg):
             self.get_values_from_pg()
         return self.classified_style()
 
-    def generate_raster_style(self, max_value, min_value):
-        return self.coverage_style(max_value, min_value)
+    def generate_raster_style(self, max_value, min_value,unique_values=[],legend_label=[]):
+        return self.coverage_style(max_value, min_value,unique_values,legend_label)
 
