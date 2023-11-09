@@ -74,20 +74,21 @@ class RasterStyle(RasterColorPalette):
         self.unique_values = unique_values
         self.legend_label = legend_label
 
-        if self.raster_cutoff_percentage:
-            max_min_diff = self.max_value - self.min_value
-            self.max_value = max_value - max_min_diff * self.raster_cutoff_percentage / 100
-            self.min_value = min_value + max_min_diff * self.raster_cutoff_percentage / 100
-
         self.color_palette_selector()
         
         if self.continuous_legend:
+            if self.raster_cutoff_percentage:
+                max_min_diff = self.max_value - self.min_value
+                self.max_value = max_value - max_min_diff * self.raster_cutoff_percentage / 100
+                self.min_value = min_value + max_min_diff * self.raster_cutoff_percentage / 100
+            
             self.cmap_type = 'range'
             self.legend_generator()
         else:
             self.cmap_type = 'values'
 
         cmap_entry = self.cmap_entry_generator()
+        
         style = """
         <StyledLayerDescriptor xmlns="http://www.opengis.net/sld" xmlns:gml="http://www.opengis.net/gml" version="1.0.0" xmlns:ogc="http://www.opengis.net/ogc" xmlns:sld="http://www.opengis.net/sld">
         <UserLayer>
