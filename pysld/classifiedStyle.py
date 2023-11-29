@@ -77,7 +77,7 @@ class ClassifiedStyle(Classification, categorizedStyle, FeatureLabel):
         Classification.__init__(
             self, values, number_of_class, classification_method)
 
-    def classified_rule_generator(self, lower_limit, heigher_limit, color):
+    def classified_rule_generator(self, lower_limit, heigher_limit, color,operator=">=<"):
         if self.geom_type == 'point':
             symbolizer = self.point_symbolizer_generator(color)
 
@@ -87,26 +87,96 @@ class ClassifiedStyle(Classification, categorizedStyle, FeatureLabel):
 
         elif self.geom_type == 'polygon':
             symbolizer = self.polygon_symbolizer_generator(color)
-
-        rule = '''
-        <Rule>
-            <Name> {0}-{1}</Name>
-            <Title>{0}-{1}</Title>
-            <ogc:Filter>
-                    <ogc:And>
-                    <ogc:PropertyIsGreaterThanOrEqualTo>
-                        <ogc:PropertyName>{2}</ogc:PropertyName>
-                        <ogc:Literal>{0}</ogc:Literal>
-                    </ogc:PropertyIsGreaterThanOrEqualTo>
-                    <ogc:PropertyIsLessThan>
-                        <ogc:PropertyName>{2}</ogc:PropertyName>
-                        <ogc:Literal>{1}</ogc:Literal>
-                    </ogc:PropertyIsLessThan>
-                    </ogc:And>
-                </ogc:Filter>
-            {3}
-        </Rule>
-        '''.format(lower_limit, heigher_limit, self.attribute_name, symbolizer)
+        rule=''
+        if operator==">=<":
+            rule = '''
+            <Rule>
+                <Name> {0}-{1}</Name>
+                <Title>{0}-{1}</Title>
+                <ogc:Filter>
+                        <ogc:And>
+                        <ogc:PropertyIsGreaterThanOrEqualTo>
+                            <ogc:PropertyName>{2}</ogc:PropertyName>
+                            <ogc:Literal>{0}</ogc:Literal>
+                        </ogc:PropertyIsGreaterThanOrEqualTo>
+                        <ogc:PropertyIsLessThan>
+                            <ogc:PropertyName>{2}</ogc:PropertyName>
+                            <ogc:Literal>{1}</ogc:Literal>
+                        </ogc:PropertyIsLessThan>
+                        </ogc:And>
+                    </ogc:Filter>
+                {3}
+            </Rule>
+            '''.format(lower_limit, heigher_limit, self.attribute_name, symbolizer)
+        elif operator=="=":
+            rule = '''
+            <Rule>
+                <Name> {0}-{1}</Name>
+                <Title>{0}</Title>
+                <ogc:Filter>
+                        <ogc:PropertyIsEqualTo>
+                            <ogc:PropertyName>{1}</ogc:PropertyName>
+                            <ogc:Literal>{0}</ogc:Literal>
+                        </ogc:PropertyIsEqualTo>
+                    </ogc:Filter>
+                {2}
+            </Rule>
+            '''.format(lower_limit, self.attribute_name, symbolizer)
+        elif operator==">=<=":
+            rule = '''
+            <Rule>
+                <Name> {0}-{1}</Name>
+                <Title>{0}-{1}</Title>
+                <ogc:Filter>
+                        <ogc:And>
+                        <ogc:PropertyIsGreaterThanOrEqualTo>
+                            <ogc:PropertyName>{2}</ogc:PropertyName>
+                            <ogc:Literal>{0}</ogc:Literal>
+                        </ogc:PropertyIsGreaterThanOrEqualTo>
+                        <ogc:PropertyIsLessThanOrEqualTo>
+                            <ogc:PropertyName>{2}</ogc:PropertyName>
+                            <ogc:Literal>{1}</ogc:Literal>
+                        </ogc:PropertyIsLessThanOrEqualTo>
+                        </ogc:And>
+                    </ogc:Filter>
+                {3}
+            </Rule>
+            '''.format(lower_limit, heigher_limit, self.attribute_name, symbolizer)
+        elif operator=="=":
+            rule = '''
+            <Rule>
+                <Name> {0}-{1}</Name>
+                <Title>{0}</Title>
+                <ogc:Filter>
+                        <ogc:PropertyIsEqualTo>
+                            <ogc:PropertyName>{1}</ogc:PropertyName>
+                            <ogc:Literal>{0}</ogc:Literal>
+                        </ogc:PropertyIsEqualTo>
+                    </ogc:Filter>
+                {2}
+            </Rule>
+            '''.format(lower_limit, self.attribute_name, symbolizer)
+        elif operator=="><":
+            rule = '''
+            <Rule>
+                <Name> {0}-{1}</Name>
+                <Title>Less than {1}</Title>
+                <ogc:Filter>
+                        <ogc:And>
+                        <ogc:PropertyIsGreaterThan>
+                            <ogc:PropertyName>{2}</ogc:PropertyName>
+                            <ogc:Literal>{0}</ogc:Literal>
+                        </ogc:PropertyIsGreaterThan>
+                        <ogc:PropertyIsLessThan>
+                            <ogc:PropertyName>{2}</ogc:PropertyName>
+                            <ogc:Literal>{1}</ogc:Literal>
+                        </ogc:PropertyIsLessThan>
+                        </ogc:And>
+                    </ogc:Filter>
+                {3}
+            </Rule>
+            '''.format(lower_limit, heigher_limit, self.attribute_name, symbolizer)
+            
         return rule
 
     def round_values(self, in_array, float_round):
@@ -115,6 +185,7 @@ class ClassifiedStyle(Classification, categorizedStyle, FeatureLabel):
     def classified_style(self):
 
         rule = ''
+        
 
         self.choose_classification_method()
         self.color_palette_selector()
@@ -128,18 +199,21 @@ class ClassifiedStyle(Classification, categorizedStyle, FeatureLabel):
 
         if self.classes:
             for value, color, i in zip(self.classes, self.color_palette, range(self.number_of_class)):
-                print(self.classes,"classified style classes")
+                operator=">=<"  #PropertyIsGreaterThanOrEqualTo and PropertyIsLessThan
                 try:
                     lower_limit = self.classes[i]
-                    heigher_limit = self.classes[i + 1]
-
-                    # In last set of rule, need to increase the value by 0.1 so that it will be visualize in system. #5
-                    if i == self.number_of_class - 1:
-                        heigher_limit = round(self.classes[i+1] + 0.1, 2)
-
+                    higher_limit = self.classes[i + 1]
+                    if i==0 and (lower_limit==0 or lower_limit==0.0):
+                        operator="=" #PropertyIsEqualTo
+                        rule += self.classified_rule_generator(
+                        lower_limit, higher_limit, color='#167d32',operator=operator)
+                        operator="><" #PropertyIsGreaterThan and #PropertyIsLessThan
+                    # In last set of rule, need to increase the value by 0.1 so that it will be visualize in system
+                    elif (i == self.number_of_class - 1):
+                        # higher_limit = round(self.classes[i+1] + 0.1, 2)
+                        operator=">=<=" #PropertyIsGreaterThanOrEqualTo and #PropertyIsLessThanOrEqualTo
                     rule += self.classified_rule_generator(
-                        lower_limit, heigher_limit, color)
-
+                        lower_limit, higher_limit, color,operator=operator)
                 except IndexError:
                     pass
 
