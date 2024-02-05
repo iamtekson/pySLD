@@ -17,6 +17,7 @@ class RasterStyle(RasterColorPalette):
         self.legend_label = []
 
     def legend_generator(self):
+        self.legend_label=[]
         self.interval = (self.max_value - self.min_value) / \
             (self.number_of_class - 1)
 
