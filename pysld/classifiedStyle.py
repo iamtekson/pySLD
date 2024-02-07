@@ -193,7 +193,9 @@ class ClassifiedStyle(Classification, categorizedStyle, FeatureLabel):
         # if self.float_round:
         #     self.classes = self.round_values(self.classes, self.float_round)
         try:
+            print(self.classes,"sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss")
             self.classes = self.round_values(self.classes, 2)
+            
         except:
             pass
 
@@ -211,7 +213,10 @@ class ClassifiedStyle(Classification, categorizedStyle, FeatureLabel):
                     # In last set of rule, need to increase the value by 0.1 so that it will be visualize in system
                     elif (i == self.number_of_class - 1):
                         # higher_limit = round(self.classes[i+1] + 0.1, 2)
+                        higher_limit = higher_limit+0.1
                         operator=">=<=" #PropertyIsGreaterThanOrEqualTo and #PropertyIsLessThanOrEqualTo
+                    elif lower_limit==0 or lower_limit==0.0:
+                        continue
                     rule += self.classified_rule_generator(
                         lower_limit, higher_limit, color,operator=operator)
                 except IndexError:

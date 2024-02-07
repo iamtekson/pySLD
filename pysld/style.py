@@ -321,13 +321,15 @@ class StyleSld (ClassifiedStyle, RasterStyle,  Pg):
     def generate_classified_style(self, values=None):
         if self.values or values:
             temp_values=self.values if self.values else values
+            temp_values = [value for value in temp_values if value not in [0.0, 0, '0', '0.0',0.00,'0.00']]
+            temp_values.append(0.0)
             self.number_of_class=5
             if len(set(temp_values))<5:
-                if len(set(temp_values))>1:
+                if len(set(temp_values))>0:
                     temp_values.sort()
                     min_val=temp_values[0]
                     max_val=temp_values[-1]
-                    for i in range(3):
+                    for i in range(4):
                         temp_values.append(round(random.uniform(min_val,max_val),2))
                 else:
                     self.number_of_class=len(set(values))
@@ -335,10 +337,8 @@ class StyleSld (ClassifiedStyle, RasterStyle,  Pg):
                     pass 
             try:
                 temp_values = [float(value) for value in temp_values]
-                # if all(isinstance(value, (int, float)) for value in temp_values):
-                #     int_temp_values=[int(value) for value in temp_values]
-                if 0.0 not in temp_values:
-                    temp_values.append(0.0)
+                # if 0.0 not in temp_values:
+                #     temp_values.append(0.0)
             except:
                 print("its string dataset")
             # if all(isinstance(value, (int, float)) for value in temp_values) and 0 not in temp_values:
