@@ -323,9 +323,13 @@ class StyleSld (ClassifiedStyle, RasterStyle,  Pg):
             temp_values=self.values if self.values else values
             temp_values = [value for value in temp_values if value not in [0.0, 0, '0', '0.0',0.00,'0.00']]
             temp_values.append(0.0)
+            
             self.number_of_class=5
             if len(set(temp_values))<5:
-                if len(set(temp_values))>0:
+                if len(set(temp_values))==1:
+                    self.number_of_class=2
+                    temp_values=[0.0,0.0,0.0]
+                elif len(set(temp_values))>1:
                     temp_values.sort()
                     min_val=temp_values[0]
                     max_val=temp_values[-1]
