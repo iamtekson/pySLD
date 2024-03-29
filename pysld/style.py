@@ -119,7 +119,9 @@ class StyleSld (ClassifiedStyle, RasterStyle,  Pg):
 
     halo_radius: numeric
 
-    continuous_legend: bool
+    # continuous_legend: bool
+    
+    interpolation=str
 
     float_round: int, It will help to round the element, see more in classification.round_values
     """
@@ -163,8 +165,10 @@ class StyleSld (ClassifiedStyle, RasterStyle,  Pg):
             font_style="normal",
             halo_color="#ffffff",
             halo_radius=1,
-            continuous_legend=True,
+            # continuous_legend=True,
             raster_cutoff_percentage=None,
+            interpolation='Linear'
+            # custom_classes=[]
     ):
 
         Pg.__init__(self, dbname, user, password, host, port)
@@ -199,6 +203,7 @@ class StyleSld (ClassifiedStyle, RasterStyle,  Pg):
             font_style=font_style,
             halo_color=halo_color,
             halo_radius=halo_radius,
+            # custom_classes=custom_classes
             # float_round=float_round
         )
 
@@ -208,8 +213,9 @@ class StyleSld (ClassifiedStyle, RasterStyle,  Pg):
             color_palette=color_palette,
             number_of_class=number_of_class,
             opacity=opacity,
-            continuous_legend=continuous_legend,
+            # continuous_legend=continuous_legend,
             raster_cutoff_percentage=raster_cutoff_percentage,
+            interpolation=interpolation
         )
 
         # The schema of the table from postgresql
@@ -353,6 +359,20 @@ class StyleSld (ClassifiedStyle, RasterStyle,  Pg):
         else:
             self.get_values_from_pg()
         return self.classified_style()
+    
+    def generate_custom_classified_style(self, custom_classes=None):
+        '''
+        custom_classes= [
+                            {'val1':,'val2':,'alias':},
+                            {'val1':,'val2':,'alias':},
+                            {'val1':,'val2':,'alias':},
+                        ]
+        '''
+        if custom_classes:
+            # temp_custom_values=self.custom_classes if self.custom_classes else custom_classes
+            self.custom_classes=custom_classes
+            self.number_of_class=len(custom_classes)
+        return self.custom_classified_style()
 
     def generate_raster_style(self, max_value, min_value,unique_values=[],legend_label=[]):
         return self.coverage_style(max_value, min_value,unique_values,legend_label)

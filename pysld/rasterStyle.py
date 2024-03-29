@@ -2,17 +2,25 @@ import seaborn as sns
 from matplotlib.colors import rgb2hex
 from .support import RasterColorPalette
 
+'''
+Interpolation Types and their representation
+- Discrete: 'intervals'
+- Linear: 'ramp'
+- Exact: 'values'
 
+TODO: Remove dependencies of continuous_legend=True after implementing interpolation
+'''
 class RasterStyle(RasterColorPalette):
-    def __init__(self, style_name='coverageStyle', color_palette='Spectral_r', number_of_class=5, opacity=1, continuous_legend=True, raster_cutoff_percentage=5):
+    def __init__(self, style_name='coverageStyle', color_palette='Spectral_r', number_of_class=5, opacity=1, raster_cutoff_percentage=5, interpolation='Linear'):
         super().__init__(color_palette, number_of_class)
         self.style_name = style_name
         self.opacity = opacity
-        self.continuous_legend = continuous_legend
+        # self.continuous_legend = continuous_legend
         self.raster_cutoff_percentage = raster_cutoff_percentage
+        self.interpolation=interpolation
 
         # These fields are auto generated during style creation
-        self.cmap_type = ''
+        self.cmap_type = 'ramp'
         self.interval = None
         self.legend_label = []
 
@@ -30,7 +38,6 @@ class RasterStyle(RasterColorPalette):
                 # self.legend_label.append(val)
                 self.legend_label.append(round(val, 2))
 
- 
     def color_palette_selector(self):
         if type(self.color_palette) is dict:
             self.number_of_class = len(self.color_palette)
@@ -42,22 +49,17 @@ class RasterStyle(RasterColorPalette):
             self.color_palette = [rgb2hex(i) for i in palette]
 
     def cmap_entry_generator(self):
-        
+        print(self.cmap_type,"cmap type  cmap_entry_generator")
         cmap_entry = ''
-        if self.cmap_type == 'range':
+        if self.cmap_type == 'ramp': 
             for i, color, label in zip(range(self.number_of_class), self.color_palette, self.legend_label):
                 val = self.min_value + self.interval * i
-                # if self.float_round:
-                #     try:
-                #         label = round(label, self.float_round)
-                #     except:
-                #         pass
                 if (i == 0 and int(self.min_value) == 0):
                     cmap_entry += '<sld:ColorMapEntry color="#000000" label=" 0" quantity="0" opacity="0"/>'
                 else:
                     cmap_entry += '<sld:ColorMapEntry color="{0}" label=" {1}" quantity="{2}"/> \n'.format(
                         color, label, val)
-        else:
+        elif self.cmap_type == 'values':
             for i, color in zip(range(len(self.unique_values)), self.color_palette):
                 val = self.unique_values[i]
                 label=self.legend_label[i]
@@ -66,10 +68,18 @@ class RasterStyle(RasterColorPalette):
                 else:
                     cmap_entry += '<sld:ColorMapEntry color="{0}" label=" {1}" quantity="{2}"/> \n'.format(
                         color,label, val)
+        elif self.cmap_type == 'intervals':
+            for i, color in zip(range(len(self.unique_values)), self.color_palette):
+                val = self.unique_values[i]
+                label=self.legend_label[i]
+                if (i == 0 and int(val) == 0):
+                    cmap_entry += '<sld:ColorMapEntry color="#000000" label=" 0" quantity="0" opacity="0"/>'
+                else:
+                    cmap_entry += '<sld:ColorMapEntry color="{0}" label=" {1}" quantity="{2}"/> \n'.format(
+                        color,label, val)
         return cmap_entry
 
     def coverage_style(self, max_value, min_value,unique_values,legend_label):
-
         self.max_value = max_value
         self.min_value = min_value
         self.unique_values = unique_values
@@ -77,16 +87,17 @@ class RasterStyle(RasterColorPalette):
 
         self.color_palette_selector()
         
-        if self.continuous_legend:
+        if self.interpolation=='Linear':
             if self.raster_cutoff_percentage:
                 max_min_diff = self.max_value - self.min_value
                 self.max_value = max_value - max_min_diff * self.raster_cutoff_percentage / 100
                 self.min_value = min_value + max_min_diff * self.raster_cutoff_percentage / 100
-            
-            self.cmap_type = 'range'
+            self.cmap_type = 'ramp'
             self.legend_generator()
-        else:
+        elif self.interpolation=="Exact":
             self.cmap_type = 'values'
+        elif self.interpolation=="Discrete":
+            self.cmap_type = 'intervals'
 
         cmap_entry = self.cmap_entry_generator()
         

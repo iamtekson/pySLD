@@ -175,30 +175,20 @@ class ClassifiedStyle(Classification, categorizedStyle, FeatureLabel):
                     </ogc:Filter>
                 {3}
             </Rule>
-            '''.format(lower_limit, heigher_limit, self.attribute_name, symbolizer)
-            
+            '''.format(lower_limit, heigher_limit, self.attribute_name, symbolizer)    
         return rule
 
     def round_values(self, in_array, float_round):
         return [round(elem, float_round) for elem in in_array]
 
     def classified_style(self):
-
         rule = ''
-        
-
         self.choose_classification_method()
         self.color_palette_selector()
-
-        # if self.float_round:
-        #     self.classes = self.round_values(self.classes, self.float_round)
         try:
-            print(self.classes,"sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss")
             self.classes = self.round_values(self.classes, 2)
-            
         except:
             pass
-
         if self.classes:
             for value, color, i in zip(self.classes, self.color_palette, range(self.number_of_class)):
                 operator=">=<"  #PropertyIsGreaterThanOrEqualTo and PropertyIsLessThan
@@ -227,3 +217,26 @@ class ClassifiedStyle(Classification, categorizedStyle, FeatureLabel):
         else:
             raise ValueError(
                 'The values column must be a list of numeric values.')
+            
+            
+    def custom_classified_style(self):
+        rule = ''
+        # self.choose_classification_method()
+        self.color_palette_selector()
+        if self.custom_classes:
+            for custom_class, color, i in zip(self.custom_classes, self.color_palette, range(self.number_of_class)):
+                operator=">=<"  #PropertyIsGreaterThanOrEqualTo and PropertyIsLessThan
+                try:
+                    lower_limit = self.custom_classes[i]['val1']
+                    higher_limit = self.custom_classes[i]['val2']
+                    if (i == self.number_of_class - 1):
+                        operator=">=<=" #PropertyIsGreaterThanOrEqualTo and #PropertyIsLessThanOrEqualTo
+                    rule += self.classified_rule_generator(
+                        lower_limit, higher_limit, color,operator=operator)
+                except IndexError:
+                    pass
+            return self.style_generator(rule)
+        else:
+            raise ValueError(
+                'The values column must be a list of numeric values.')
+
