@@ -35,7 +35,6 @@ class RasterStyle(RasterColorPalette):
         else:
             for i in range(len(self.color_palette)):
                 val = self.min_value + self.interval * i
-                # self.legend_label.append(val)
                 self.legend_label.append(round(val, 2))
 
     def color_palette_selector(self):
@@ -49,7 +48,6 @@ class RasterStyle(RasterColorPalette):
             self.color_palette = [rgb2hex(i) for i in palette]
 
     def cmap_entry_generator(self):
-        print(self.cmap_type,"cmap type  cmap_entry_generator")
         cmap_entry = ''
         if self.cmap_type == 'ramp': 
             for i, color, label in zip(range(self.number_of_class), self.color_palette, self.legend_label):
@@ -60,23 +58,28 @@ class RasterStyle(RasterColorPalette):
                     cmap_entry += '<sld:ColorMapEntry color="{0}" label=" {1}" quantity="{2}"/> \n'.format(
                         color, label, val)
         elif self.cmap_type == 'values':
-            for i, color in zip(range(len(self.unique_values)), self.color_palette):
-                val = self.unique_values[i]
-                label=self.legend_label[i]
-                if (i == 0 and int(self.min_value) == 0):
-                    cmap_entry += '<sld:ColorMapEntry color="#000000" label=" 0" quantity="0" opacity="0"/>'
+            # for i, color in zip(range(len(self.unique_values)), self.color_palette):
+                # val = self.unique_values[i]
+                # label=self.legend_label[i]
+                # if (i == 0 and int(self.min_value) == 0):
+            for value, color, label in zip(self.unique_values, self.color_palette, self.legend_label):
+                if (label == 0):
+                    cmap_entry += '<sld:ColorMapEntry color="#000000" label=" 0" quantity="{0}" opacity="0"/>\n'.format(value)
                 else:
                     cmap_entry += '<sld:ColorMapEntry color="{0}" label=" {1}" quantity="{2}"/> \n'.format(
-                        color,label, val)
+                        color,label, value)
         elif self.cmap_type == 'intervals':
-            for i, color in zip(range(len(self.unique_values)), self.color_palette):
-                val = self.unique_values[i]
-                label=self.legend_label[i]
-                if (i == 0 and int(val) == 0):
-                    cmap_entry += '<sld:ColorMapEntry color="#000000" label=" 0" quantity="0" opacity="0"/>'
+            # for i, color in zip(range(len(self.unique_values)), self.color_palette):
+                # val = self.unique_values[i]
+                # label=self.legend_label[i]
+                # if (i == 0 and int(val) == 0):
+            for value, color, label in zip(self.unique_values, self.color_palette, self.legend_label):
+                # if (value == 0 or value==0.0 or value==0.00):
+                if (label == 0):
+                    cmap_entry += '<sld:ColorMapEntry color="#000000" label=" 0" quantity="{0}" opacity="0"/> \n'.format(value)
                 else:
                     cmap_entry += '<sld:ColorMapEntry color="{0}" label=" {1}" quantity="{2}"/> \n'.format(
-                        color,label, val)
+                        color,label, value)
         return cmap_entry
 
     def coverage_style(self, max_value, min_value,unique_values,legend_label):
